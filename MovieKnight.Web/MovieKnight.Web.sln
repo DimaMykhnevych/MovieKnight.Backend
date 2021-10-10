@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieKnight.Web", "MovieKnight.Web\MovieKnight.Web.csproj", "{8DD43D87-50C0-4DD2-9090-DB6086C142BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieKnight.BusinessLayer", "MovieKnight.BusinessLayer\MovieKnight.BusinessLayer.csproj", "{55CD9001-8DF9-468E-A245-5EB5A6E8C870}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieKnight.DataLayer", "MovieKnight.DataLayer\MovieKnight.DataLayer.csproj", "{1C3C0628-6F80-480E-8C1B-285F8CFB2A61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8DD43D87-50C0-4DD2-9090-DB6086C142BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD43D87-50C0-4DD2-9090-DB6086C142BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DD43D87-50C0-4DD2-9090-DB6086C142BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD43D87-50C0-4DD2-9090-DB6086C142BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55CD9001-8DF9-468E-A245-5EB5A6E8C870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55CD9001-8DF9-468E-A245-5EB5A6E8C870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55CD9001-8DF9-468E-A245-5EB5A6E8C870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55CD9001-8DF9-468E-A245-5EB5A6E8C870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C3C0628-6F80-480E-8C1B-285F8CFB2A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C3C0628-6F80-480E-8C1B-285F8CFB2A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C3C0628-6F80-480E-8C1B-285F8CFB2A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C3C0628-6F80-480E-8C1B-285F8CFB2A61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E66E9C42-1201-4B04-A780-283A3C12C397}
+	EndGlobalSection
+EndGlobal
