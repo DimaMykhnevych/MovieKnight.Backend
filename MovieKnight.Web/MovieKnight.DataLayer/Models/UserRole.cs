@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace MovieKnight.DataLayer.Models
 {
-    public class UserRole : IdentityRole<int>
+    public class UserRole : IdentityRole<Guid>
     {
 
     }

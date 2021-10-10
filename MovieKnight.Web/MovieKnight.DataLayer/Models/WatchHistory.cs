@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MovieKnight.DataLayer.Models
 {
-    class WatchHistory
+    public class WatchHistory
     {
-        public int Id { get; set; }
-        public int MovieId { get; set; }
-        public int UserId { get; set; }
+        public Guid Id { get; set; }
+        public Guid MovieId { get; set; }
+        public Guid AppUserId { get; set; }
         public int Rating { get; set; }
+
+        public AppUser AppUser { get; set; }
+        public Movie Movie { get; set; }
     }
 }

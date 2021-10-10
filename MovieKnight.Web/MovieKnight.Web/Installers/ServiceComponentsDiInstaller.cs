@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MovieKnight.BusinessLayer.Factories;
+using MovieKnight.BusinessLayer.Services.AuthorizationService;
+using MovieKnight.BusinessLayer.Services.User;
 
 namespace MovieKnight.Web.Installers
 {
@@ -10,6 +12,10 @@ namespace MovieKnight.Web.Installers
         {
             //factories
             services.AddTransient<IAuthTokenFactory, AuthTokenFactory>();
+
+            //serivces
+            services.AddTransient<BaseAuthorizationService, AppUserAuthorizationService>();
+            services.AddTransient<IUserService, UserService>();
         }
     }
 }
