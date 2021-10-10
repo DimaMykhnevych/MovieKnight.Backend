@@ -12,6 +12,9 @@ namespace MovieKnight.DataLayer.Models
         {
             Friends1 = new List<Friends>();
             Friends2 = new List<Friends>();
+
+            FriendsRequestsSent = new List<FriendRequest>();
+            FriendsRequestsReceived = new List<FriendRequest>();
         }
 
         public DateTime RegistryDate { get; set; }
@@ -23,5 +26,8 @@ namespace MovieKnight.DataLayer.Models
 
         public ICollection<Friends> Friends1 { get; set; }
         public ICollection<Friends> Friends2 { get; set; }
+
+        public ICollection<FriendRequest> FriendsRequestsSent { get; set; }
+        public ICollection<FriendRequest> FriendsRequestsReceived { get; set; }
     }
 }
