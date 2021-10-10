@@ -14,10 +14,23 @@ namespace MovieKnight.DataLayer.DbContext
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<WatchHistory> WatchHistory { get; set; }
+        //public DbSet<FriendRequest> FriendRequests { get; set; }
+        public DbSet<Friends> Friends { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Friends>()
+                .HasOne(a => a.AppUser1)
+                .WithMany(b => b.Friends)
+                .HasForeignKey(c => c.AppUser2);
+
+            builder.Entity<Friends>()
+                .HasOne(a => a.AppUser2)
+                .WithMany(b => b.Friends)
+                .HasForeignKey(c => c.AppUser1);
+
         }
     }
 }

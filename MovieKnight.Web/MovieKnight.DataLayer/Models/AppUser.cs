@@ -2,15 +2,22 @@
 using MovieKnight.DataLayer.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieKnight.DataLayer.Models
 {
     public class AppUser : IdentityUser<Guid>
     {
+        public AppUser()
+        {
+            Friends = new List<Friends>();
+        }
         public DateTime RegistryDate { get; set; }
         public DateTime BirthdayDate { get; set; }
         public string Role { get; set; }
         public StoryVisibility StoryVisibility { get; set; }
         public IEnumerable<WatchHistory> WatchHistory { get; set; }
+        //public ICollection<FriendRequest> FriendRequests { get; set; }
+        public ICollection<Friends> Friends { get; set; }
     }
 }
