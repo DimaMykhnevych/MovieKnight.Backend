@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovieKnight.DataLayer.Enums;
+using System;
 
 namespace MovieKnight.DataLayer.Models.Auth
 {
@@ -10,5 +11,6 @@ namespace MovieKnight.DataLayer.Models.Auth
         public DateTime RegistryDate { get; set; }
         public DateTime BirthdayDate { get; set; }
         public string Email { get; set; }
+        public StoryVisibility StoryVisibility { get; set; }
     }
 }
