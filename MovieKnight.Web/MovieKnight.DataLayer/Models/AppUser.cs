@@ -10,14 +10,18 @@ namespace MovieKnight.DataLayer.Models
     {
         public AppUser()
         {
-            Friends = new List<Friends>();
+            Friends1 = new List<Friends>();
+            Friends2 = new List<Friends>();
         }
+
         public DateTime RegistryDate { get; set; }
         public DateTime BirthdayDate { get; set; }
         public string Role { get; set; }
         public StoryVisibility StoryVisibility { get; set; }
         public IEnumerable<WatchHistory> WatchHistory { get; set; }
         //public ICollection<FriendRequest> FriendRequests { get; set; }
-        public ICollection<Friends> Friends { get; set; }
+
+        public ICollection<Friends> Friends1 { get; set; }
+        public ICollection<Friends> Friends2 { get; set; }
     }
 }

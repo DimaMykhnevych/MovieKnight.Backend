@@ -23,13 +23,13 @@ namespace MovieKnight.DataLayer.DbContext
 
             builder.Entity<Friends>()
                 .HasOne(a => a.AppUser1)
-                .WithMany(b => b.Friends)
-                .HasForeignKey(c => c.AppUser2);
+                .WithMany(b => b.Friends1)
+                .HasForeignKey(c => c.AppUser1Id);
 
             builder.Entity<Friends>()
                 .HasOne(a => a.AppUser2)
-                .WithMany(b => b.Friends)
-                .HasForeignKey(c => c.AppUser1);
+                .WithMany(b => b.Friends2)
+                .HasForeignKey(c => c.AppUser2Id).OnDelete(DeleteBehavior.NoAction);
 
         }
     }
