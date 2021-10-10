@@ -9,6 +9,8 @@ namespace MovieKnight.BusinessLayer.Services.User
     {
         Task<AppUser> GetUserByUsername(string username);
         Task<AppUser> CreateUserAsync(CreateUserDto userModel);
+
+        //TODO
         //Task<AppUser> UpdateUserAsync(UpdateUserModel userModel);
         Task DeleteUser(Guid userId);
     }
