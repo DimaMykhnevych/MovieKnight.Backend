@@ -5,8 +5,6 @@ namespace MovieKnight.DataLayer.Models
 {
     public class FriendRequest
     {
-        public Guid Id { get; set; }
-
         public Guid SenderId { get; set; }
         public AppUser Sender { get; set; }
 

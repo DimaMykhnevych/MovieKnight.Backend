@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieKnight.DataLayer.Migrations
 {
-    public partial class AddInitialTables : Migration
+    public partial class ChangeFriendsAndFriendsRequestsTablesRelations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -169,6 +169,52 @@ namespace MovieKnight.DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FriendRequests",
+                columns: table => new
+                {
+                    SenderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReceiverId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FriendRequestStatus = table.Column<int>(type: "int", nullable: false),
+                    RequestDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FriendRequests", x => new { x.ReceiverId, x.SenderId });
+                    table.ForeignKey(
+                        name: "FK_FriendRequests_AspNetUsers_ReceiverId",
+                        column: x => x.ReceiverId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_FriendRequests_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Friends",
+                columns: table => new
+                {
+                    Friend1Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Friend2Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Friends", x => new { x.Friend1Id, x.Friend2Id });
+                    table.ForeignKey(
+                        name: "FK_Friends_AspNetUsers_Friend1Id",
+                        column: x => x.Friend1Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Friends_AspNetUsers_Friend2Id",
+                        column: x => x.Friend2Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WatchHistory",
                 columns: table => new
                 {
@@ -234,6 +280,16 @@ namespace MovieKnight.DataLayer.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FriendRequests_SenderId",
+                table: "FriendRequests",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Friends_Friend2Id",
+                table: "Friends",
+                column: "Friend2Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WatchHistory_AppUserId",
                 table: "WatchHistory",
                 column: "AppUserId");
@@ -260,6 +316,12 @@ namespace MovieKnight.DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "FriendRequests");
+
+            migrationBuilder.DropTable(
+                name: "Friends");
 
             migrationBuilder.DropTable(
                 name: "WatchHistory");

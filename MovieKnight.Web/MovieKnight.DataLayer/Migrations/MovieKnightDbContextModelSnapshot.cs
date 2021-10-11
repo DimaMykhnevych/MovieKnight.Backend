@@ -200,25 +200,19 @@ namespace MovieKnight.DataLayer.Migrations
 
             modelBuilder.Entity("MovieKnight.DataLayer.Models.FriendRequest", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("ReceiverId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SenderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("FriendRequestStatus")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("ReceiverId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("SenderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReceiverId");
+                    b.HasKey("ReceiverId", "SenderId");
 
                     b.HasIndex("SenderId");
 
@@ -227,21 +221,15 @@ namespace MovieKnight.DataLayer.Migrations
 
             modelBuilder.Entity("MovieKnight.DataLayer.Models.Friends", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("Friend1Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AppUser1Id")
+                    b.Property<Guid>("Friend2Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AppUser2Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasKey("Friend1Id", "Friend2Id");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUser1Id");
-
-                    b.HasIndex("AppUser2Id");
+                    b.HasIndex("Friend2Id");
 
                     b.ToTable("Friends");
                 });
@@ -366,15 +354,15 @@ namespace MovieKnight.DataLayer.Migrations
             modelBuilder.Entity("MovieKnight.DataLayer.Models.FriendRequest", b =>
                 {
                     b.HasOne("MovieKnight.DataLayer.Models.AppUser", "Receiver")
-                        .WithMany("FriendsRequestsReceived")
+                        .WithMany("FriendRequests")
                         .HasForeignKey("ReceiverId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MovieKnight.DataLayer.Models.AppUser", "Sender")
-                        .WithMany("FriendsRequestsSent")
+                        .WithMany()
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Receiver");
@@ -384,21 +372,21 @@ namespace MovieKnight.DataLayer.Migrations
 
             modelBuilder.Entity("MovieKnight.DataLayer.Models.Friends", b =>
                 {
-                    b.HasOne("MovieKnight.DataLayer.Models.AppUser", "AppUser1")
-                        .WithMany("Friends1")
-                        .HasForeignKey("AppUser1Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MovieKnight.DataLayer.Models.AppUser", "AppUser2")
-                        .WithMany("Friends2")
-                        .HasForeignKey("AppUser2Id")
+                    b.HasOne("MovieKnight.DataLayer.Models.AppUser", "Friend1")
+                        .WithMany("Friends")
+                        .HasForeignKey("Friend1Id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("AppUser1");
+                    b.HasOne("MovieKnight.DataLayer.Models.AppUser", "Friend2")
+                        .WithMany()
+                        .HasForeignKey("Friend2Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.Navigation("AppUser2");
+                    b.Navigation("Friend1");
+
+                    b.Navigation("Friend2");
                 });
 
             modelBuilder.Entity("MovieKnight.DataLayer.Models.WatchHistory", b =>
@@ -422,13 +410,9 @@ namespace MovieKnight.DataLayer.Migrations
 
             modelBuilder.Entity("MovieKnight.DataLayer.Models.AppUser", b =>
                 {
-                    b.Navigation("Friends1");
+                    b.Navigation("FriendRequests");
 
-                    b.Navigation("Friends2");
-
-                    b.Navigation("FriendsRequestsReceived");
-
-                    b.Navigation("FriendsRequestsSent");
+                    b.Navigation("Friends");
 
                     b.Navigation("WatchHistory");
                 });
