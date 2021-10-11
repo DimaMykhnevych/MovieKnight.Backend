@@ -58,6 +58,7 @@ namespace MovieKnight.BusinessLayer.Services.AuthorizationService
 
         public async override Task<UserAuthInfo> GetUserInfoAsync(string userName)
         {
+            if (userName == null) return null;
             AppUser user = await _userManager.FindByNameAsync(userName);
 
             UserAuthInfo info = new UserAuthInfo
