@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MovieKnight.DataLayer.DbContext;
+using MovieKnight.Web.Options;
 
 namespace MovieKnight.Web.Installers
 {
@@ -9,8 +10,10 @@ namespace MovieKnight.Web.Installers
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<RemoteMySqlOptions>(configuration.GetSection("ConnectionStrings:Default"));
+            string connectionString = configuration["ConnectionStrings:Default"];
             services.AddDbContext<MovieKnightDbContext>(opt =>
-                    opt.UseSqlServer(configuration.GetConnectionString("Default")));
+                    opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
         }
     }
 }
