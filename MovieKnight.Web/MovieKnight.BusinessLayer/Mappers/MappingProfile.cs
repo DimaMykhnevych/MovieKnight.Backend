@@ -13,6 +13,9 @@ namespace MovieKnight.BusinessLayer.Mappers
             .IgnoreAllUnmapped()
             .ForMember(u => u.Role, m => m.MapFrom(u => u.Role))
             .ForMember(u => u.UserName, m => m.MapFrom(u => u.Username));
+
+            CreateMap<AddMovieDto, Movie>().ReverseMap();
+            CreateMap<MovieDto, Movie>().ReverseMap();
         }
     }
 }

@@ -1,0 +1,47 @@
+﻿using AutoMapper;
+using MovieKnight.BusinessLayer.DTOs;
+using MovieKnight.DataLayer.Models;
+using MovieKnight.DataLayer.Repositories.MovieRepository;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace MovieKnight.BusinessLayer.Services.MovieService
+{
+    public class MovieService : IMovieService
+    {
+        private readonly IMovieRepository _movieRepository;
+        private readonly IMapper _mapper;
+
+        public MovieService(IMovieRepository movieRepository, IMapper mapper)
+        {
+            _movieRepository = movieRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<MovieDto>> GetMovies()
+        {
+            IEnumerable<Movie> movies = await _movieRepository.GetAll();
+            return _mapper.Map<IEnumerable<MovieDto>>(movies);
+        }
+
+        public async Task<MovieDto> AddMovie(AddMovieDto movieDto)
+        {
+            var movie = _mapper.Map<Movie>(movieDto);
+            movie.Id = Guid.NewGuid();
+            var added = await _movieRepository.Insert(movie);
+            await _movieRepository.Save();
+            return _mapper.Map<MovieDto>(added);
+        }
+
+        public async Task<bool> DeleteMovie(Guid id)
+        {
+            var movieToDelete = await _movieRepository.Get(id);
+            if (movieToDelete == null)
+                return false;
+             _movieRepository.Delete(movieToDelete);
+            await _movieRepository.Save();
+            return true;
+        }
+    }
+}
