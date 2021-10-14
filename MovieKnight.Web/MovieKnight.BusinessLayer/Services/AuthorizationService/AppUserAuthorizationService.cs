@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MovieKnight.BusinessLayer.Constants;
 using MovieKnight.BusinessLayer.Factories;
+using MovieKnight.DataLayer.Enums;
 using MovieKnight.DataLayer.Models;
 using MovieKnight.DataLayer.Models.Auth;
 using System.Collections.Generic;
@@ -41,17 +42,22 @@ namespace MovieKnight.BusinessLayer.Services.AuthorizationService
             };
         }
 
-        public async override Task<bool> VerifyUserAsync(AuthSignInModel model)
+        public async override Task<LoginErrorCodes> VerifyUserAsync(AuthSignInModel model)
         {
             AppUser user = await _userManager.FindByNameAsync(model.UserName);
             if (user == null)
             {
-                return false;
+                return LoginErrorCodes.InvalidUsernameOrPassword; 
+            }
+
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                return LoginErrorCodes.EmailConfirmationRequired;
             }
 
             SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
 
-            return result.Succeeded;
+            return result.Succeeded ? LoginErrorCodes.None : LoginErrorCodes.InvalidUsernameOrPassword;
         }
 
         public async override Task<UserAuthInfo> GetUserInfoAsync(string userName)

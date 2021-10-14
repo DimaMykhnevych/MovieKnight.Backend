@@ -10,5 +10,9 @@ namespace MovieKnight.BusinessLayer.DTOs
         [Required]
         [MinLength(6)]
         public string Password { get; set; }
+
+        [Required]
+        public string Email { get; set; }
+        public string ClientURIForEmailConfirmation { get; set; }
     }
 }

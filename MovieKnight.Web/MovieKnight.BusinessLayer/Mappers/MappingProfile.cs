@@ -11,7 +11,6 @@ namespace MovieKnight.BusinessLayer.Mappers
         public MappingProfile()
         {
             CreateMap<CreateUserDto, AppUser>()
-            .IgnoreAllUnmapped()
             .ForMember(u => u.Role, m => m.MapFrom(u => u.Role))
             .ForMember(u => u.UserName, m => m.MapFrom(u => u.Username));
 

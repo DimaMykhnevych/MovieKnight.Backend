@@ -9,6 +9,7 @@ namespace MovieKnight.Web.Installers
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<IMDbApiDetails>(configuration.GetSection("IMDbApiDetails"));
+            services.Configure<EmailServiceDetails>(configuration.GetSection("EmailServiceDetails"));
         }
-    }
+}
 }

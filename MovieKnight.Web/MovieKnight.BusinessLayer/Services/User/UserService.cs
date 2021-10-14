@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Exceptions;
+using MovieKnight.BusinessLayer.Services.EmailService;
 using MovieKnight.DataLayer.Builders.UserSearchQueryBuilder;
 using MovieKnight.DataLayer.Models;
-using MovieKnight.DataLayer.Repositories.UserRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,17 @@ namespace MovieKnight.BusinessLayer.Services.User
     public class UserService : IUserService
     {
         private readonly IMapper _mapper;
-        private readonly IUserRepository _userRepository;
         private readonly UserManager<AppUser> _userManager;
         private readonly IUserSearchQueryBuilder _userSearchQueryBuilder;
+        private readonly IEmailService _emailService;
 
-        public UserService(IMapper mapper, UserManager<AppUser> userManager, IUserSearchQueryBuilder userSearchQueryBuilder)
+        public UserService(IMapper mapper, UserManager<AppUser> userManager,
+            IEmailService emailService, IUserSearchQueryBuilder userSearchQueryBuilder)
         {
             _mapper = mapper;
             _userManager = userManager;
             _userSearchQueryBuilder = userSearchQueryBuilder;
+            _emailService = emailService;
         }
 
         public async Task<IEnumerable<AppUser>> SearchUsers(string username)
@@ -55,7 +58,29 @@ namespace MovieKnight.BusinessLayer.Services.User
 
             ValidateIdentityResult(addUserResult);
 
+            string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var param = new Dictionary<string, string>
+                {
+                    {"token", token },
+                    {"email", user.Email }
+                };
+            string url = QueryHelpers.AddQueryString(model.ClientURIForEmailConfirmation, param);
+            await _emailService.SendEmail(user, url);
+
+
             return await GetUserByUsername(user.UserName);
+        }
+
+        public async Task<ConfirmEmailDto> ConfirmEmail(ConfirmEmailDto confirmEmailDto)
+        {
+            AppUser user = await _userManager.FindByEmailAsync(confirmEmailDto.Email);
+            if (user == null)
+                return null;
+            var confirmResult = await _userManager.ConfirmEmailAsync(user, confirmEmailDto.Token);
+            if (!confirmResult.Succeeded)
+                return null;
+            return confirmEmailDto;
         }
 
         //TODO uncomment when change user info will be available on UI

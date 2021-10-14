@@ -15,5 +15,6 @@ namespace MovieKnight.BusinessLayer.Services.User
         //TODO
         //Task<AppUser> UpdateUserAsync(UpdateUserModel userModel);
         Task DeleteUser(Guid userId);
+        Task<ConfirmEmailDto> ConfirmEmail(ConfirmEmailDto confirmEmailDto);
     }
 }

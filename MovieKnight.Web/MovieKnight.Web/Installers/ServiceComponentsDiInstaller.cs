@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MovieKnight.BusinessLayer.Clients.MovieClient;
 using MovieKnight.BusinessLayer.Factories;
 using MovieKnight.BusinessLayer.Services.AuthorizationService;
+using MovieKnight.BusinessLayer.Services.EmailService;
 using MovieKnight.BusinessLayer.Services.FriendsRequestsService;
 using MovieKnight.BusinessLayer.Services.FriendsService;
 using MovieKnight.BusinessLayer.Services.MovieService;
@@ -31,6 +32,7 @@ namespace MovieKnight.Web.Installers
             services.AddTransient<IWatchHistoryService, WatchHistoryService>();
             services.AddTransient<IFriendsService, FriendsService>();
             services.AddTransient<IFriendsRequestsService, FriendsRequestsService>();
+            services.AddTransient<IEmailService, EmailService>();
 
             //clients
             services.AddHttpClient<IImdbMovieClient, ImdbMovieClient>();
