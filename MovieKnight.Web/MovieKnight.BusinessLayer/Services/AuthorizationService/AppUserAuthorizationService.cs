@@ -3,10 +3,8 @@ using MovieKnight.BusinessLayer.Constants;
 using MovieKnight.BusinessLayer.Factories;
 using MovieKnight.DataLayer.Models;
 using MovieKnight.DataLayer.Models.Auth;
-using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MovieKnight.BusinessLayer.Services.AuthorizationService

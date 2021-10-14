@@ -21,6 +21,13 @@ namespace MovieKnight.Web.Controllers
             _service = service;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetUsers([FromQuery] string username)
+        {
+            var results = await _service.SearchUsers(username);
+            return Ok(results);
+        }
+
         [HttpGet("{username}")]
         public async Task<IActionResult> Get(string username)
         {

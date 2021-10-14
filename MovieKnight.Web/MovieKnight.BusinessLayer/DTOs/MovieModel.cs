@@ -2,7 +2,6 @@
 
 namespace MovieKnight.BusinessLayer.DTOs
 {
-    //TODO Add Friends repo
     public class MovieModel
     {
         public string Id { get; set; }

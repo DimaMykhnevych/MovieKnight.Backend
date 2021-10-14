@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Exceptions;
+using MovieKnight.DataLayer.Builders.UserSearchQueryBuilder;
 using MovieKnight.DataLayer.Models;
+using MovieKnight.DataLayer.Repositories.UserRepository;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,12 +15,26 @@ namespace MovieKnight.BusinessLayer.Services.User
     public class UserService : IUserService
     {
         private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IUserSearchQueryBuilder _userSearchQueryBuilder;
 
-        public UserService(IMapper mapper, UserManager<AppUser> userManager)
+        public UserService(IMapper mapper, UserManager<AppUser> userManager, IUserSearchQueryBuilder userSearchQueryBuilder)
         {
             _mapper = mapper;
             _userManager = userManager;
+            _userSearchQueryBuilder = userSearchQueryBuilder;
+        }
+
+        public async Task<IEnumerable<AppUser>> SearchUsers(string username)
+        {
+            var result =
+                 _userSearchQueryBuilder.SetBaseUserInfo()
+                .SetUsername(username)
+                .Build()
+                .ToList();
+
+            return result;
         }
 
         public async Task<AppUser> GetUserByUsername(string username)
@@ -100,6 +117,7 @@ namespace MovieKnight.BusinessLayer.Services.User
                 throw new Exception(errorsMessage);
             }
         }
+
 
         //private bool ValidatePasswords(UpdateUserModel model, out List<String> errors)
         //{
