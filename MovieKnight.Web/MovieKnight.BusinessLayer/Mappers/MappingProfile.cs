@@ -16,7 +16,8 @@ namespace MovieKnight.BusinessLayer.Mappers
             .ForMember(u => u.UserName, m => m.MapFrom(u => u.Username));
 
             CreateMap<AddMovieDto, Movie>().ReverseMap();
-            CreateMap<MovieDto, Movie>().ReverseMap();
+            CreateMap<Movie, MovieDto>().ForMember(mdto => mdto.MovieInfo,
+                mdto => mdto.MapFrom<FullMovieInfoResolver>());
             CreateMap<WatchHistory, WatchHistoryDto>().ForMember(wdto => wdto.Movie, 
                 wdto => wdto.MapFrom<WatchHistoryMovieResolver>());
             CreateMap<AddWatchHistoryDto, WatchHistory>().ReverseMap();

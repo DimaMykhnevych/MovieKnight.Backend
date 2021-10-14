@@ -6,5 +6,6 @@ namespace MovieKnight.BusinessLayer.DTOs
     {
         public Guid Id { get; set; }
         public string IMDbId { get; set; }
+        public MovieModel MovieInfo { get; set; }
     }
 }

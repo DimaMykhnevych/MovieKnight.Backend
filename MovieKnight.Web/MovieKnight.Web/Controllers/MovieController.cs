@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Services.MovieService;
 using System;
@@ -8,6 +9,7 @@ namespace MovieKnight.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MovieController : ControllerBase
     {
         private readonly IMovieService _movieService;
@@ -22,6 +24,13 @@ namespace MovieKnight.Web.Controllers
         {
             var movies = await _movieService.GetMovies();
             return Ok(movies);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetMovie(Guid id)
+        {
+            var movie = await _movieService.GetMovieFromImdb(id);
+            return Ok(movie);
         }
 
         [HttpPost]

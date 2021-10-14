@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Services.WatchHistoryService;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieKnight.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WatchHistoryController : ControllerBase
     {
         private readonly IWatchHistoryService _watchHistoryService;
