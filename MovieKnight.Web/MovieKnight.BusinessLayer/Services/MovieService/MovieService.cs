@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MovieKnight.BusinessLayer.Clients.MovieClient;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.DataLayer.Models;
 using MovieKnight.DataLayer.Repositories.MovieRepository;
@@ -12,11 +13,13 @@ namespace MovieKnight.BusinessLayer.Services.MovieService
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IMapper _mapper;
+        private readonly IImdbMovieClient _imdbMovieClient;
 
-        public MovieService(IMovieRepository movieRepository, IMapper mapper)
+        public MovieService(IMovieRepository movieRepository, IMapper mapper, IImdbMovieClient imdbMovieClient)
         {
             _movieRepository = movieRepository;
             _mapper = mapper;
+            _imdbMovieClient = imdbMovieClient;
         }
 
         public async Task<IEnumerable<MovieDto>> GetMovies()
@@ -42,6 +45,13 @@ namespace MovieKnight.BusinessLayer.Services.MovieService
              _movieRepository.Delete(movieToDelete);
             await _movieRepository.Save();
             return true;
+        }
+
+        public async Task<MovieModel> GetMovieFromImdb(Guid movieId)
+        {
+            var movie = await _movieRepository.Get(movieId);
+            var result = await _imdbMovieClient.GetMovieFromImdb(movie.IMDbId);
+            return result;
         }
     }
 }

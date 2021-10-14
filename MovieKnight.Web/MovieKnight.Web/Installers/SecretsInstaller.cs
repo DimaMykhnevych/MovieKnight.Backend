@@ -1,15 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MovieKnight.BusinessLayer.Mappers;
+using MovieKnight.BusinessLayer.Options;
 
 namespace MovieKnight.Web.Installers
 {
-    public class MapperInstaller : IInstaller
+    public class SecretsInstaller : IInstaller
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(typeof(MappingProfile));
+            services.Configure<IMDbApiDetails>(configuration.GetSection("IMDbApiDetails"));
         }
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Extensions;
+using MovieKnight.BusinessLayer.Resolvers;
 using MovieKnight.DataLayer.Models;
 
 namespace MovieKnight.BusinessLayer.Mappers
@@ -16,6 +17,9 @@ namespace MovieKnight.BusinessLayer.Mappers
 
             CreateMap<AddMovieDto, Movie>().ReverseMap();
             CreateMap<MovieDto, Movie>().ReverseMap();
+            CreateMap<WatchHistory, WatchHistoryDto>().ForMember(wdto => wdto.Movie, 
+                wdto => wdto.MapFrom<WatchHistoryMovieResolver>());
+            CreateMap<AddWatchHistoryDto, WatchHistory>().ReverseMap();
         }
     }
 }
