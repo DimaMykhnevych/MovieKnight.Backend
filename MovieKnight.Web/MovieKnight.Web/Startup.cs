@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MovieKnight.Web.Extensions;
 using MovieKnight.Web.Options;
+using Newtonsoft.Json;
 
 namespace MovieKnight.Web
 {
@@ -21,6 +22,10 @@ namespace MovieKnight.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.InstallServices(Configuration);
+            services.AddMvc().AddNewtonsoftJson(o =>
+            {
+                o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,6 @@
-﻿using MovieKnight.DataLayer.Models;
+﻿using AutoMapper;
+using MovieKnight.BusinessLayer.DTOs;
+using MovieKnight.DataLayer.Models;
 using MovieKnight.DataLayer.Repositories.FriendsRepository;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,12 @@ namespace MovieKnight.BusinessLayer.Services.FriendsService
     public class FriendsService : IFriendsService
     {
         private readonly IFriendsRepository _friendsRepository;
+        private readonly IMapper _mapper;
 
-        public FriendsService(IFriendsRepository friendsRepository)
+        public FriendsService(IFriendsRepository friendsRepository, IMapper mapper)
         {
             _friendsRepository = friendsRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<AppUser>> GetUserFriends(Guid userId)
@@ -26,6 +30,14 @@ namespace MovieKnight.BusinessLayer.Services.FriendsService
         {
             var res = await _friendsRepository.DeleteUserFriend(userId, friendToDelete);
             return res;
+        }
+
+        public async Task<FriendsDto> AddFriend(Guid userId, Guid friendId)
+        {
+            var friend = new Friends() { Friend1Id = userId, Friend2Id = friendId };
+            var added = await _friendsRepository.Insert(friend);
+            await _friendsRepository.Save();
+            return _mapper.Map<FriendsDto>(added);
         }
     }
 }

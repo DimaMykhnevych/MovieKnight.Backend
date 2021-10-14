@@ -21,6 +21,10 @@ namespace MovieKnight.BusinessLayer.Mappers
             CreateMap<WatchHistory, WatchHistoryDto>().ForMember(wdto => wdto.Movie, 
                 wdto => wdto.MapFrom<WatchHistoryMovieResolver>());
             CreateMap<AddWatchHistoryDto, WatchHistory>().ReverseMap();
+            CreateMap<FriendRequest, FriendRequestDto>().ReverseMap();
+            CreateMap<FriendsDto, Friends>().ReverseMap();
+            CreateMap<AddFriendRequestDto, FriendRequest>().ReverseMap();
+            CreateMap<UpdateRequestDto, FriendRequest>().ReverseMap();
         }
     }
 }

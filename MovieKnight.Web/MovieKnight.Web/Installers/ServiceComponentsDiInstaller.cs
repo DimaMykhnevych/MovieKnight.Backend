@@ -3,11 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using MovieKnight.BusinessLayer.Clients.MovieClient;
 using MovieKnight.BusinessLayer.Factories;
 using MovieKnight.BusinessLayer.Services.AuthorizationService;
+using MovieKnight.BusinessLayer.Services.FriendsRequestsService;
 using MovieKnight.BusinessLayer.Services.FriendsService;
 using MovieKnight.BusinessLayer.Services.MovieService;
 using MovieKnight.BusinessLayer.Services.User;
 using MovieKnight.BusinessLayer.Services.WatchHistoryService;
 using MovieKnight.DataLayer.Builders.UserSearchQueryBuilder;
+using MovieKnight.DataLayer.Repositories.FriendRequestsRepository;
 using MovieKnight.DataLayer.Repositories.FriendsRepository;
 using MovieKnight.DataLayer.Repositories.MovieRepository;
 using MovieKnight.DataLayer.Repositories.UserRepository;
@@ -28,6 +30,7 @@ namespace MovieKnight.Web.Installers
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IWatchHistoryService, WatchHistoryService>();
             services.AddTransient<IFriendsService, FriendsService>();
+            services.AddTransient<IFriendsRequestsService, FriendsRequestsService>();
 
             //clients
             services.AddHttpClient<IImdbMovieClient, ImdbMovieClient>();
@@ -40,6 +43,7 @@ namespace MovieKnight.Web.Installers
             services.AddTransient<IWatchHistoryRepository, WatchHistoryRepository>();
             services.AddTransient<IFriendsRepository, FriendsRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IFriendRequestsRepository, FriendRequestsRepository>();
         }
     }
 }
