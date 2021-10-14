@@ -45,5 +45,15 @@ namespace MovieKnight.Web.Controllers
                 return BadRequest();
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("byUserId")]
+        public async Task<IActionResult> GetWatchHistoryByUserId(Guid userId)
+        {
+            var currentUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID));
+            var result = await _watchHistoryService.GetWatchHistoryByUserId(userId, currentUserId);
+            return Ok(result);
+        }
+
     }
 }

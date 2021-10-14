@@ -42,5 +42,11 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
             var watchHistoryItem = watchHistory.ToList().FirstOrDefault(i => i.Id == id);
             return _mapper.Map<WatchHistoryDto>(watchHistoryItem);
         }
+
+        public async Task<IEnumerable<WatchHistoryDto>> GetWatchHistoryByUserId(Guid UserId, Guid CurrentUserId)
+        {
+            var watchHistory = await _watchHistoryRepository.GetWatchHistoryByUserId(UserId, CurrentUserId);
+            return _mapper.Map<IEnumerable<WatchHistoryDto>>(watchHistory);
+        }
     }
 }
