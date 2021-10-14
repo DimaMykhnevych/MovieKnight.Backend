@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Services.MovieService;
 using System;
@@ -9,7 +8,6 @@ namespace MovieKnight.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class MovieController : ControllerBase
     {
         private readonly IMovieService _movieService;

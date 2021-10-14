@@ -7,7 +7,7 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
 {
     public interface IWatchHistoryService
     {
-        Task<IEnumerable<WatchHistoryDto>> GetWatchHistory();
+        Task<IEnumerable<WatchHistoryDto>> GetWatchHistory(Guid currentUserId);
         Task<WatchHistoryDto> GetWatchHistoryItem(Guid id);
         Task<WatchHistoryDto> AddWatchHistoryItem(AddWatchHistoryDto watchHistoryDto);
     }

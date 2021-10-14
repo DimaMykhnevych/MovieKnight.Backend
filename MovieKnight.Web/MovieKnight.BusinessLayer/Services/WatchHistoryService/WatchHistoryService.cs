@@ -29,10 +29,11 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
             return _mapper.Map<WatchHistoryDto>(added);
         }
 
-        public async Task<IEnumerable<WatchHistoryDto>> GetWatchHistory()
+        public async Task<IEnumerable<WatchHistoryDto>> GetWatchHistory(Guid currentUserId)
         {
             var watchHistory = await _watchHistoryRepository.GetAll();
-            return _mapper.Map<IEnumerable<WatchHistoryDto>>(watchHistory);
+            var currentUserWatchHistory = watchHistory.Where(wh => wh.AppUserId == currentUserId);
+            return _mapper.Map<IEnumerable<WatchHistoryDto>>(currentUserWatchHistory);
         }
 
         public async Task<WatchHistoryDto> GetWatchHistoryItem(Guid id)

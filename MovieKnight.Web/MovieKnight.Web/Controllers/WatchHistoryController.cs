@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieKnight.BusinessLayer.Constants;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Services.WatchHistoryService;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MovieKnight.Web.Controllers
@@ -22,7 +24,8 @@ namespace MovieKnight.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetWatchHistory()
         {
-            var result = await _watchHistoryService.GetWatchHistory();
+            var currentUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID));
+            var result = await _watchHistoryService.GetWatchHistory(currentUserId);
             return Ok(result);
         }
 
@@ -36,6 +39,7 @@ namespace MovieKnight.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddWatchHistoryItem([FromBody] AddWatchHistoryDto watchHistoryDto)
         {
+            watchHistoryDto.AppUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID)); 
             var result = await _watchHistoryService.AddWatchHistoryItem(watchHistoryDto);
             if (result == null)
                 return BadRequest();
