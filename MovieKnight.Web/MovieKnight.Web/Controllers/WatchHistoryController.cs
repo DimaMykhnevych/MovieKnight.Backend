@@ -47,7 +47,7 @@ namespace MovieKnight.Web.Controllers
         }
 
         [HttpGet]
-        [Route("byUserId")]
+        [Route("byUserId/{userId}")]
         public async Task<IActionResult> GetWatchHistoryByUserId(Guid userId)
         {
             var currentUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID));

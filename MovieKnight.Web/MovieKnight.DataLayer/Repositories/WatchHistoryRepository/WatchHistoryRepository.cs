@@ -14,6 +14,19 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
         {
         }
 
+
+        public async Task<IEnumerable<WatchHistory>> GetWatchHistoryByUserId(Guid userId, Guid currentUserId)
+        {
+            if (await CanGetWatchHistory(userId, currentUserId))
+            {
+                return await Context.WatchHistory
+                    .Where(r => r.AppUserId == userId)
+                    .ToListAsync();
+            }
+
+            return null;
+        }
+
         private async Task<bool> CanGetWatchHistory(Guid userId, Guid currentUserId)
         {
             var user = await Context.AppUsers
@@ -33,19 +46,6 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
                 .FirstOrDefaultAsync(r => r.Friend1Id == userId && r.Friend2Id == currentUserId);
 
             return result != null;
-        }
-
-        public async Task<IEnumerable<WatchHistory>> GetWatchHistoryByUserId(Guid userId, Guid currentUserId)
-        {
-            if (await CanGetWatchHistory(userId, currentUserId))
-            {
-                return await Context.WatchHistory
-                    .Where(r => r.AppUserId == userId)
-                    .Include(r => r.AppUser)
-                    .ToListAsync();
-            }
-
-            return null;
         }
     }
 }
