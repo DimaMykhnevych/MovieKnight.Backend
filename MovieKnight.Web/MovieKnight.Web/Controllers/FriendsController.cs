@@ -27,5 +27,15 @@ namespace MovieKnight.Web.Controllers
             var friends = await _friendsService.GetUserFriends(currentUserId);
             return Ok(friends);
         }
+
+        [HttpDelete("{friendIdToDelete:guid}")]
+        public async Task<IActionResult> DeleteUserFriend(Guid friendIdToDelete)
+        {
+            var currentUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID));
+            var res = await _friendsService.DeleteFriend(currentUserId, friendIdToDelete);
+            if (res)
+                return Ok(res);
+            return BadRequest();
+        }
     }
 }

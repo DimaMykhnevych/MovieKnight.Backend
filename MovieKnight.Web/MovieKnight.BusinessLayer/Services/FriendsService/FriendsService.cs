@@ -21,5 +21,11 @@ namespace MovieKnight.BusinessLayer.Services.FriendsService
             var friends = await _friendsRepository.GetUserFriends(userId);
             return friends.ToList().Select(f => f.Friend2);
         }
+
+        public async Task<bool> DeleteFriend(Guid userId, Guid friendToDelete)
+        {
+            var res = await _friendsRepository.DeleteUserFriend(userId, friendToDelete);
+            return res;
+        }
     }
 }

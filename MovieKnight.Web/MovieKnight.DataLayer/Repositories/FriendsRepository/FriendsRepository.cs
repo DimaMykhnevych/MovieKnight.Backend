@@ -21,5 +21,15 @@ namespace MovieKnight.DataLayer.Repositories.FriendsRepository
                 .Include(f => f.Friend2)
                 .ToListAsync();
         }
+
+        public async Task<bool> DeleteUserFriend(Guid userId, Guid friendToDeleteId)
+        {
+            var entityToDelete = await Context.Friends
+                .FirstOrDefaultAsync(f => f.Friend1Id == userId && f.Friend2Id == friendToDeleteId);
+            if (entityToDelete == null) return false;
+            Context.Friends.Remove(entityToDelete);
+            await Context.SaveChangesAsync();
+            return true;
+        }
     }
 }
