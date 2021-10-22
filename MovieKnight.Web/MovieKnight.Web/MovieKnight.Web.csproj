@@ -29,4 +29,9 @@
     <ProjectReference Include="..\MovieKnight.BusinessLayer\MovieKnight.BusinessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Properties\ServiceDependencies\" />
+  </ItemGroup>
+
 </Project>

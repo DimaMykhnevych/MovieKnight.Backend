@@ -50,7 +50,7 @@ namespace MovieKnight.Web
 
             app.UseRouting();
 
-            app.UseCors("CorsPolicy");
+            //app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
 
