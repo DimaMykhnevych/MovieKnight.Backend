@@ -12,10 +12,8 @@ namespace MovieKnight.Web.Installers
         {
             services.Configure<RemoteMySqlOptions>(configuration.GetSection("ConnectionStrings:Default"));
             string connectionString = configuration["ConnectionStrings:Default"];
-            /*services.AddDbContext<MovieKnightDbContext>(opt =>
-                    opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));*/
             services.AddDbContext<MovieKnightDbContext>(opt =>
-                    opt.UseSqlServer(connectionString));
+                    opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
         }
     }
 }
