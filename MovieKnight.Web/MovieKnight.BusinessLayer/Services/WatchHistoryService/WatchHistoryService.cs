@@ -49,5 +49,21 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
             //foreach (var wh in watchHistory) wh.AppUser = null;
             return _mapper.Map<IEnumerable<WatchHistoryDto>>(watchHistory);
         }
+
+        public async Task<bool> UpdateWatchHistoryItem(UpdateWatchHistoryDto updateWatchHistoryDto)
+        {
+            WatchHistory watchHistory = await _watchHistoryRepository.Get(updateWatchHistoryDto.WatchHistoryId);
+            if (watchHistory == null) return false;
+            watchHistory.Rating = updateWatchHistoryDto.NewRating;
+            try
+            {
+                await _watchHistoryRepository.UpdateWatchHistoryItem(watchHistory);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

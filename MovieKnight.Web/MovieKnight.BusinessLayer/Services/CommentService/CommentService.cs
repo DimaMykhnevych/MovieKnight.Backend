@@ -23,6 +23,7 @@ namespace MovieKnight.BusinessLayer.Services.CommentService
         {
             var comment = _mapper.Map<Comment>(addCommentDto);
             comment.CommentDate = DateTime.Now;
+            comment.Id = new Guid();
             await _commentRepository.Insert(comment);
             await _commentRepository.Save();
             return _mapper.Map<CommentDto>(comment);

@@ -8,5 +8,6 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
     public interface IWatchHistoryRepository : IRepository<WatchHistory>
     {
         Task<IEnumerable<WatchHistory>> GetWatchHistoryByUserId(Guid userId, Guid currentUserId);
+        Task UpdateWatchHistoryItem(WatchHistory movie);
     }
 }

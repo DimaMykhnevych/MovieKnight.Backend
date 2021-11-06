@@ -47,5 +47,12 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
 
             return result != null;
         }
+
+        public async Task UpdateWatchHistoryItem(WatchHistory movie)
+        {
+            Context.WatchHistory.Update(movie);
+            await Context.SaveChangesAsync();
+        }
+
     }
 }

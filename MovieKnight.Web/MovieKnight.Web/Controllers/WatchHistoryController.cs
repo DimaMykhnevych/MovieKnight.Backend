@@ -55,5 +55,12 @@ namespace MovieKnight.Web.Controllers
             return Ok(result);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateWatchHistoryItem([FromBody] UpdateWatchHistoryDto updateWatchHistoryDto)
+        {
+            var result = await _watchHistoryService.UpdateWatchHistoryItem(updateWatchHistoryDto);
+            if (result) return Ok(result);
+            return BadRequest();
+        }
     }
 }

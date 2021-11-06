@@ -54,6 +54,7 @@ namespace MovieKnight.BusinessLayer.Services.User
             }
 
             AppUser user = _mapper.Map<AppUser>(model);
+            user.RegistryDate = DateTime.Now;
             IdentityResult addUserResult = await _userManager.CreateAsync(user, model.Password);
 
             ValidateIdentityResult(addUserResult);
@@ -132,7 +133,7 @@ namespace MovieKnight.BusinessLayer.Services.User
             ValidateIdentityResult(deleteUserResult);
         }
 
-        private void ValidateIdentityResult(IdentityResult result)
+        private static void ValidateIdentityResult(IdentityResult result)
         {
             if (!result.Succeeded)
             {

@@ -20,10 +20,11 @@ namespace MovieKnight.BusinessLayer.Services.EmailService
         {
             MailAddress addressFrom = new MailAddress(_emailServiceDetails.EmailAddress, "Movie Knight");
             MailAddress addressTo = new MailAddress(user.Email);
-            MailMessage message = new MailMessage(addressFrom, addressTo);
-
-            message.Subject = "Account Confirmation";
-            message.IsBodyHtml = true;
+            MailMessage message = new MailMessage(addressFrom, addressTo)
+            {
+                Subject = "Account Confirmation",
+                IsBodyHtml = true
+            };
             string htmlString = @$"<html>
                       <body style='background-color: #f7f1d5; 
                         padding: 15px; border-radius: 15px; 
@@ -38,9 +39,11 @@ namespace MovieKnight.BusinessLayer.Services.EmailService
                      ";
             message.Body = htmlString;
 
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new NetworkCredential(_emailServiceDetails.EmailAddress, _emailServiceDetails.Password);
-            smtp.EnableSsl = true;
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential(_emailServiceDetails.EmailAddress, _emailServiceDetails.Password),
+                EnableSsl = true
+            };
             await smtp.SendMailAsync(message);
         }
     }

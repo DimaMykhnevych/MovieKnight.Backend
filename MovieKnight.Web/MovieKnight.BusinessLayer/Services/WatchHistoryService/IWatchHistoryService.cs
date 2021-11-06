@@ -11,5 +11,6 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
         Task<WatchHistoryDto> GetWatchHistoryItem(Guid id);
         Task<IEnumerable<WatchHistoryDto>> GetWatchHistoryByUserId(Guid UserId, Guid CurrentUserId);
         Task<WatchHistoryDto> AddWatchHistoryItem(AddWatchHistoryDto watchHistoryDto);
+        Task<bool> UpdateWatchHistoryItem(UpdateWatchHistoryDto updateWatchHistoryDto);
     }
 }
