@@ -2,6 +2,7 @@
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Services.MovieService;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieKnight.Web.Controllers
@@ -22,6 +23,14 @@ namespace MovieKnight.Web.Controllers
         {
             var movies = await _movieService.GetMovies();
             return Ok(movies);
+        }
+
+        [HttpGet]
+        [Route("getRecommendedMovie")]
+        public async Task<IActionResult> GetRecommendedMovie()
+        {
+            var movies = (await _movieService.GetMovies()).ToList();
+            return Ok(movies[0]);
         }
 
         [HttpGet("{id}")]
