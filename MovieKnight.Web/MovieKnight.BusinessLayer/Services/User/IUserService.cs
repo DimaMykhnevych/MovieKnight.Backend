@@ -11,9 +11,7 @@ namespace MovieKnight.BusinessLayer.Services.User
         Task<IEnumerable<AppUser>> SearchUsers(string username);
         Task<AppUser> GetUserByUsername(string username);
         Task<AppUser> CreateUserAsync(CreateUserDto userModel);
-
-        //TODO
-        //Task<AppUser> UpdateUserAsync(UpdateUserModel userModel);
+        Task<AppUser> UpdateUserAsync(UpdateUserDto userModel);
         Task DeleteUser(Guid userId);
         Task<ConfirmEmailDto> ConfirmEmail(ConfirmEmailDto confirmEmailDto);
     }

@@ -7,6 +7,7 @@ using MovieKnight.BusinessLayer.Exceptions;
 using MovieKnight.BusinessLayer.Services.User;
 using MovieKnight.DataLayer.Models;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MovieKnight.Web.Controllers
@@ -58,29 +59,24 @@ namespace MovieKnight.Web.Controllers
             return Ok(confirmEmail);
         }
 
-        //[HttpPut]
-        //public async Task<IActionResult> Put([FromBody] UpdateUserModel model)
-        //{
-        //    try
-        //    {
-        //        return Ok(await _service.UpdateUserAsync(model));
-        //    }
-        //    catch (InvalidUserPasswordException)
-        //    {
-        //        return BadRequest(AddModelStateError("password", ErrorMessagesConstants.INVALID_PASSWORD));
-        //    }
-        //    catch (UsernameAlreadyTakenException)
-        //    {
-        //        return BadRequest(AddModelStateError("username", ErrorMessagesConstants.USERNAME_ALREADY_TAKEN));
-        //    }
-        //}
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] UpdateUserDto model)
+        {
+            model.Id = new Guid(User.FindFirstValue(AuthorizationConstants.ID));
+            try
+            {
+                return Ok(await _service.UpdateUserAsync(model));
+            }
+            catch (InvalidUserPasswordException)
+            {
+                return BadRequest(AddModelStateError("password", ErrorMessagesConstants.INVALID_PASSWORD));
+            }
+            catch (UsernameAlreadyTakenException)
+            {
+                return BadRequest(AddModelStateError("username", ErrorMessagesConstants.USERNAME_ALREADY_TAKEN));
+            }
+        }
 
-        //[HttpPut("{id:guid}")]
-        //public async Task<IActionResult> DeactivateUser(Guid id)
-        //{
-        //    await _service.DeactivateUser(id);
-        //    return Ok();
-        //}
 
         [HttpDelete("{id:guid}")]
         [Authorize(Roles = Role.Admin)]

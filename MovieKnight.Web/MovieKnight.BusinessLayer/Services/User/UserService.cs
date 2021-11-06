@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using MovieKnight.BusinessLayer.Constants;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Exceptions;
 using MovieKnight.BusinessLayer.Services.EmailService;
@@ -84,46 +85,44 @@ namespace MovieKnight.BusinessLayer.Services.User
             return confirmEmailDto;
         }
 
-        //TODO uncomment when change user info will be available on UI
+        public async Task<AppUser> UpdateUserAsync(UpdateUserDto model)
+        {
+            List<string> errors = new List<string>();
+            Boolean result = ValidatePasswords(model, out errors);
 
-        //public async Task<AppUser> UpdateUserAsync(UpdateUserModel model)
-        //{
-        //    List<string> errors = new List<string>();
-        //    Boolean result = ValidatePasswords(model, out errors);
+            if (!result)
+            {
+                throw new InvalidUserPasswordException(String.Join(" ", errors));
+            }
 
-        //    if (!result)
-        //    {
-        //        throw new InvalidUserPasswordException(String.Join(" ", errors));
-        //    }
+            AppUser existingUser = await _userManager.FindByNameAsync(model.Username);
+            if (existingUser != null && existingUser.Id != model.Id)
+            {
+                throw new UsernameAlreadyTakenException();
+            }
 
-        //    AppUser existingUser = await _userManager.FindByNameAsync(model.Username);
-        //    if (existingUser != null && existingUser.Id != model.Id)
-        //    {
-        //        throw new UsernameAlreadyTakenException();
-        //    }
+            AppUser user = await _userManager.FindByIdAsync(model.Id.ToString());
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
 
-        //    AppUser user = await _userManager.FindByIdAsync(model.Id.ToString());
-        //    if (user == null)
-        //    {
-        //        throw new UserNotFoundException();
-        //    }
+            _mapper.Map(model, user);
 
-        //    _mapper.Map(model, user);
+            IdentityResult updateUserResult = await _userManager.UpdateAsync(user);
+            ValidateIdentityResult(updateUserResult);
 
-        //    IdentityResult updateUserResult = await _userManager.UpdateAsync(user);
-        //    ValidateIdentityResult(updateUserResult);
+            if (!String.IsNullOrEmpty(model.NewPassword))
+            {
+                IdentityResult changePasswordsResult = await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+                if (!changePasswordsResult.Succeeded)
+                {
+                    throw new InvalidUserPasswordException(String.Join(" ", errors));
+                }
+            }
 
-        //    if (!String.IsNullOrEmpty(model.NewPassword))
-        //    {
-        //        IdentityResult changePasswordsResult = await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
-        //        if (!changePasswordsResult.Succeeded)
-        //        {
-        //            throw new InvalidUserPasswordException(String.Join(" ", errors));
-        //        }
-        //    }
-
-        //    return await GetUserByUsername(user.UserName);
-        //}
+            return await GetUserByUsername(user.UserName);
+        }
 
         public async Task DeleteUser(Guid userId)
         {
@@ -145,29 +144,29 @@ namespace MovieKnight.BusinessLayer.Services.User
         }
 
 
-        //private bool ValidatePasswords(UpdateUserModel model, out List<String> errors)
-        //{
-        //    errors = new List<string>();
-        //    if (String.IsNullOrEmpty(model.Password) &&
-        //        String.IsNullOrEmpty(model.NewPassword) &&
-        //        String.IsNullOrEmpty(model.ConfirmPassword))
-        //    {
-        //        return true;
-        //    }
+        private bool ValidatePasswords(UpdateUserDto model, out List<String> errors)
+        {
+            errors = new List<string>();
+            if (String.IsNullOrEmpty(model.Password) &&
+                String.IsNullOrEmpty(model.NewPassword) &&
+                String.IsNullOrEmpty(model.ConfirmPassword))
+            {
+                return true;
+            }
 
-        //    if (String.IsNullOrEmpty(model.Password) ||
-        //        String.IsNullOrEmpty(model.NewPassword) ||
-        //        String.IsNullOrEmpty(model.ConfirmPassword))
-        //    {
-        //        errors.Add(ErrorMessagesConstants.NOT_ALL_PASS_FIELDS_FILLED);
-        //    }
+            if (String.IsNullOrEmpty(model.Password) ||
+                String.IsNullOrEmpty(model.NewPassword) ||
+                String.IsNullOrEmpty(model.ConfirmPassword))
+            {
+                errors.Add(ErrorMessagesConstants.NOT_ALL_PASS_FIELDS_FILLED);
+            }
 
-        //    if (!model.NewPassword.Equals(model.ConfirmPassword))
-        //    {
-        //        errors.Add(ErrorMessagesConstants.PASSWORDS_DO_NOT_MATCH);
-        //    }
+            if (!model.NewPassword.Equals(model.ConfirmPassword))
+            {
+                errors.Add(ErrorMessagesConstants.PASSWORDS_DO_NOT_MATCH);
+            }
 
-        //    return errors.Any() ? false : true;
-        //}
+            return errors.Any() ? false : true;
+        }
     }
 }

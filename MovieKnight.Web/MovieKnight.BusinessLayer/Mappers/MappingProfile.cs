@@ -14,11 +14,17 @@ namespace MovieKnight.BusinessLayer.Mappers
             .ForMember(u => u.Role, m => m.MapFrom(u => u.Role))
             .ForMember(u => u.UserName, m => m.MapFrom(u => u.Username));
 
+            CreateMap<UpdateUserDto, AppUser>()
+                   .IgnoreAllUnmapped()
+                   .ForMember(u => u.UserName, m => m.MapFrom(u => u.Username))
+                   .ForMember(u => u.StoryVisibility, m => m.MapFrom(u => u.StoryVisibility))
+                   .ForMember(u => u.BirthdayDate, m => m.MapFrom(u => u.BirthdayDate));
+
             CreateMap<AddMovieDto, Movie>().ReverseMap();
 
             CreateMap<Movie, MovieDto>().ForMember(mdto => mdto.MovieInfo,
                 mdto => mdto.MapFrom<FullMovieInfoResolver>());
-            CreateMap<WatchHistory, WatchHistoryDto>().ForMember(wdto => wdto.Movie, 
+            CreateMap<WatchHistory, WatchHistoryDto>().ForMember(wdto => wdto.Movie,
                 wdto => wdto.MapFrom<WatchHistoryMovieResolver>());
 
             CreateMap<AddWatchHistoryDto, WatchHistory>().ReverseMap();
