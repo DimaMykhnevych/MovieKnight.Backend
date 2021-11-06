@@ -22,10 +22,10 @@ namespace MovieKnight.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetWatchHistory()
+        public async Task<IActionResult> GetWatchHistory([FromQuery] SearchWatchHistoryDto searchParams)
         {
             var currentUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID));
-            var result = await _watchHistoryService.GetWatchHistory(currentUserId);
+            var result = await _watchHistoryService.GetWatchHistory(currentUserId, searchParams);
             return Ok(result);
         }
 
@@ -39,7 +39,8 @@ namespace MovieKnight.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddWatchHistoryItem([FromBody] AddWatchHistoryDto watchHistoryDto)
         {
-            watchHistoryDto.AppUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID)); 
+            watchHistoryDto.AppUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID));
+            
             var result = await _watchHistoryService.AddWatchHistoryItem(watchHistoryDto);
             if (result == null)
                 return BadRequest();

@@ -144,7 +144,7 @@ namespace MovieKnight.BusinessLayer.Services.User
         }
 
 
-        private bool ValidatePasswords(UpdateUserDto model, out List<String> errors)
+        private static bool ValidatePasswords(UpdateUserDto model, out List<String> errors)
         {
             errors = new List<string>();
             if (String.IsNullOrEmpty(model.Password) &&
@@ -166,7 +166,7 @@ namespace MovieKnight.BusinessLayer.Services.User
                 errors.Add(ErrorMessagesConstants.PASSWORDS_DO_NOT_MATCH);
             }
 
-            return errors.Any() ? false : true;
+            return !errors.Any();
         }
     }
 }

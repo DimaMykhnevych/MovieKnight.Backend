@@ -9,6 +9,8 @@ namespace MovieKnight.BusinessLayer.DTOs
         public Guid MovieId { get; set; }
         public Guid AppUserId { get; set; }
         public int Rating { get; set; }
+        public DateTime WatchDate { get; set; }
+
 
         public AppUser AppUser { get; set; }
         public MovieModel Movie { get; set; }

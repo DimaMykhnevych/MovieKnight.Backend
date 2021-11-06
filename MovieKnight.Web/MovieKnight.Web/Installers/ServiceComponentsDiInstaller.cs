@@ -11,6 +11,7 @@ using MovieKnight.BusinessLayer.Services.MovieService;
 using MovieKnight.BusinessLayer.Services.User;
 using MovieKnight.BusinessLayer.Services.WatchHistoryService;
 using MovieKnight.DataLayer.Builders.UserSearchQueryBuilder;
+using MovieKnight.DataLayer.Builders.WatchHistorySearchQueryBuilder;
 using MovieKnight.DataLayer.Repositories.CommentRepository;
 using MovieKnight.DataLayer.Repositories.FriendRequestsRepository;
 using MovieKnight.DataLayer.Repositories.FriendsRepository;
@@ -42,6 +43,7 @@ namespace MovieKnight.Web.Installers
 
             //builders
             services.AddTransient<IUserSearchQueryBuilder, UserSearchQueryBuilder>();
+            services.AddTransient<IWatchHistorySearchQueryBuilder, WatchHistorySearchQueryBuilder>();
 
             //repositories
             services.AddTransient<IMovieRepository, MovieRepository>();

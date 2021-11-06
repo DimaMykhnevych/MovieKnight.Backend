@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MovieKnight.BusinessLayer.DTOs;
+using MovieKnight.DataLayer.Builders.WatchHistorySearchQueryBuilder;
 using MovieKnight.DataLayer.Models;
 using MovieKnight.DataLayer.Repositories.WatchHistoryRepository;
 using System;
@@ -12,11 +13,13 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
     public class WatchHistoryService : IWatchHistoryService
     {
         private readonly IWatchHistoryRepository _watchHistoryRepository;
+        private readonly IWatchHistorySearchQueryBuilder _searchQueryBuilder;
         private readonly IMapper _mapper;
 
-        public WatchHistoryService(IWatchHistoryRepository watchHistoryRepository, IMapper mapper)
+        public WatchHistoryService(IWatchHistoryRepository watchHistoryRepository, IWatchHistorySearchQueryBuilder searchQueryBuilder, IMapper mapper)
         {
             _watchHistoryRepository = watchHistoryRepository;
+            _searchQueryBuilder = searchQueryBuilder;
             _mapper = mapper;
         }
 
@@ -24,16 +27,23 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
         {
             var watchHistoryItem = _mapper.Map<WatchHistory>(watchHistoryDto);
             watchHistoryItem.Id = Guid.NewGuid();
+            watchHistoryItem.WatchDate = DateTime.Now;
             var added = await _watchHistoryRepository.Insert(watchHistoryItem);
             await _watchHistoryRepository.Save();
             return _mapper.Map<WatchHistoryDto>(added);
         }
 
-        public async Task<IEnumerable<WatchHistoryDto>> GetWatchHistory(Guid currentUserId)
+        public async Task<IEnumerable<WatchHistoryDto>> GetWatchHistory(Guid currentUserId, SearchWatchHistoryDto searchParams)
         {
-            var watchHistory = await _watchHistoryRepository.GetAll();
-            var currentUserWatchHistory = watchHistory.Where(wh => wh.AppUserId == currentUserId);
-            return _mapper.Map<IEnumerable<WatchHistoryDto>>(currentUserWatchHistory);
+            var watchHistory =
+                _searchQueryBuilder.SetBaseWatchHistoryInfo()
+                .GetWatchHistoryForUser(currentUserId)
+                .SetHistoryWatchDate(searchParams.FromDate, searchParams.ToDate)
+                .SetWatchHistoryMovieRating(searchParams.FromRate, searchParams.ToRate)
+                .Build()
+                .ToList();
+
+            return _mapper.Map<IEnumerable<WatchHistoryDto>>(watchHistory);
         }
 
         public async Task<WatchHistoryDto> GetWatchHistoryItem(Guid id)
