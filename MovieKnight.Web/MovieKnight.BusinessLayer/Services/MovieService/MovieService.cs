@@ -53,5 +53,11 @@ namespace MovieKnight.BusinessLayer.Services.MovieService
             var result = await _imdbMovieClient.GetMovieFromImdb(movie.IMDbId);
             return result;
         }
+
+        public async Task<MovieDto> GetFirstMovie()
+        {
+            var movie = await _movieRepository.GetFirstMovie();
+            return _mapper.Map<MovieDto>(movie);
+        }
     }
 }

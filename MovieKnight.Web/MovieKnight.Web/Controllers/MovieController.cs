@@ -29,8 +29,8 @@ namespace MovieKnight.Web.Controllers
         [Route("getRecommendedMovie")]
         public async Task<IActionResult> GetRecommendedMovie()
         {
-            var movies = (await _movieService.GetMovies()).ToList();
-            return Ok(movies[0]);
+            var movie = await _movieService.GetFirstMovie();
+            return Ok(movie);
         }
 
         [HttpGet("{id}")]
