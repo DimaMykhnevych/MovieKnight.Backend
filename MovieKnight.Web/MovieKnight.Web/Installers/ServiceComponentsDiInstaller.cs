@@ -31,7 +31,14 @@ namespace MovieKnight.Web.Installers
             //serivces
             services.AddTransient<BaseAuthorizationService, AppUserAuthorizationService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IMovieService, MovieService>();
+            if (configuration["Mode"] == "Development")
+            {
+                services.AddTransient<IMovieService, TestMovieService>();
+            }
+            else
+            {
+                services.AddTransient<IMovieService, MovieService>();
+            }
             services.AddTransient<IWatchHistoryService, WatchHistoryService>();
             services.AddTransient<IFriendsService, FriendsService>();
             services.AddTransient<IFriendsRequestsService, FriendsRequestsService>();
@@ -46,7 +53,14 @@ namespace MovieKnight.Web.Installers
             services.AddTransient<IWatchHistorySearchQueryBuilder, WatchHistorySearchQueryBuilder>();
 
             //repositories
-            services.AddTransient<IMovieRepository, MovieRepository>();
+            if (configuration["Mode"] == "Development")
+            {
+                services.AddTransient<ITestMovieRepository, TestMovieRepository>();
+            }
+            else
+            {
+                services.AddTransient<IMovieRepository, MovieRepository>();
+            }
             services.AddTransient<IWatchHistoryRepository, WatchHistoryRepository>();
             services.AddTransient<IFriendsRepository, FriendsRepository>();
             services.AddTransient<IUserRepository, UserRepository>();

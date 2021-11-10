@@ -33,27 +33,27 @@ namespace MovieKnight.Web.Controllers
             return Ok(movie);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetMovie(Guid id)
-        {
-            var movie = await _movieService.GetMovieFromImdb(id);
-            return Ok(movie);
-        }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetMovie(Guid id)
+        //{
+        //    var movie = await _movieService.GetMovieFromImdb(id);
+        //    return Ok(movie);
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> AddMovie([FromBody] AddMovieDto movieDto)
-        {
-            var added = await _movieService.AddMovie(movieDto);
-            if (added == null)
-                return BadRequest();
-            return Ok(added);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> AddMovie([FromBody] AddMovieDto movieDto)
+        //{
+        //    var added = await _movieService.AddMovie(movieDto);
+        //    if (added == null)
+        //        return BadRequest();
+        //    return Ok(added);
+        //}
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMovie(Guid id)
-        {
-            bool deleted = await _movieService.DeleteMovie(id);
-            return Ok(deleted);
-        }
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteMovie(Guid id)
+        //{
+        //    bool deleted = await _movieService.DeleteMovie(id);
+        //    return Ok(deleted);
+        //}
     }
 }
