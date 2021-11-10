@@ -33,6 +33,8 @@ namespace MovieKnight.BusinessLayer.Mappers
             CreateMap<AddFriendRequestDto, FriendRequest>().ReverseMap();
             CreateMap<UpdateRequestDto, FriendRequest>().ReverseMap();
             CreateMap<CommentDto, Comment>().ReverseMap();
+            CreateMap<AddCommentDto, Comment>().ReverseMap();
+            CreateMap<UpdateCommentDto, Comment>().ReverseMap();
         }
     }
 }

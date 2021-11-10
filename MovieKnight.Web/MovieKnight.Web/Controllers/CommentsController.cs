@@ -36,7 +36,7 @@ namespace MovieKnight.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddComment([FromBody] CommentDto addCommentDto)
+        public async Task<IActionResult> AddComment([FromBody] AddCommentDto addCommentDto)
         {
             var currentUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID));
             addCommentDto.AppUserId = currentUserId;
@@ -52,8 +52,9 @@ namespace MovieKnight.Web.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateComment([FromBody] CommentDto updateCommentDto)
+        public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentDto updateCommentDto)
         {
+            updateCommentDto.AppUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID));
             await _commentService.UpdateComment(updateCommentDto);
             return Ok();
         }

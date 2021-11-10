@@ -19,7 +19,7 @@ namespace MovieKnight.BusinessLayer.Services.CommentService
             _commentRepository = commentRepository;
         }
 
-        public async Task<CommentDto> AddComment(CommentDto addCommentDto)
+        public async Task<CommentDto> AddComment(AddCommentDto addCommentDto)
         {
             var comment = _mapper.Map<Comment>(addCommentDto);
             comment.CommentDate = DateTime.Now;
@@ -47,7 +47,7 @@ namespace MovieKnight.BusinessLayer.Services.CommentService
             return _mapper.Map<IEnumerable<CommentDto>>(comments);
         }
 
-        public async Task UpdateComment(CommentDto updateCommentDto)
+        public async Task UpdateComment(UpdateCommentDto updateCommentDto)
         {
             var comment = _mapper.Map<Comment>(updateCommentDto);
             await _commentRepository.UpdateComment(comment);
