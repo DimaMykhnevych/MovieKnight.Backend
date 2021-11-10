@@ -17,7 +17,7 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
 
         public async Task<IEnumerable<WatchHistory>> GetWatchHistoryByUserId(Guid userId, Guid currentUserId)
         {
-            if (await CanGetWatchHistory(userId, currentUserId))
+            if (userId == currentUserId ||await CanGetWatchHistory(userId, currentUserId))
             {
                 return await Context.WatchHistory
                     .Where(r => r.AppUserId == userId)

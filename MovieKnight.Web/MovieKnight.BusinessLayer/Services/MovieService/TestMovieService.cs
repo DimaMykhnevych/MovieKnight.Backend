@@ -39,7 +39,7 @@ namespace MovieKnight.BusinessLayer.Services.MovieService
         public async Task<MovieModel> GetMovieFromImdb(Guid movieId)
         {
             var movie = await _movieRepository.Get(movieId);
-            return _mapper.Map<MovieModel>(movie);
+            return _mapper.Map<MovieModel>(movie.MovieInfo);
         }
 
         public async Task<IEnumerable<MovieDto>> GetMovies()
