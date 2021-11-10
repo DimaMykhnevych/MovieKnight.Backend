@@ -21,5 +21,6 @@ namespace MovieKnight.DataLayer.Models
         public IEnumerable<WatchHistory> WatchHistory { get; set; }
         public IEnumerable<Friends> Friends { get; set; }
         public IEnumerable<FriendRequest> FriendRequests { get; set; }
+        public IEnumerable<Comment> Comments { get; set; }
     }
 }
