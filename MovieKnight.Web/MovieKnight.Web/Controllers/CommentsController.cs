@@ -40,7 +40,6 @@ namespace MovieKnight.Web.Controllers
         {
             var currentUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID));
             addCommentDto.AppUserId = currentUserId;
-            addCommentDto.Id = Guid.NewGuid();
             var result = await _commentService.AddComment(addCommentDto);
             return Ok(result);
         }
