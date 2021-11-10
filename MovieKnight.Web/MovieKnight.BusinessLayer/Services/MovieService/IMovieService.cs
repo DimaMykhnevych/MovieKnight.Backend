@@ -8,7 +8,7 @@ namespace MovieKnight.BusinessLayer.Services.MovieService
     public interface IMovieService
     {
         Task<IEnumerable<MovieDto>> GetMovies();
-        Task<MovieDto> GetFirstMovie();
+        Task<MovieDto> GetRecommendedMovie(Guid userId);
         Task<MovieModel> GetMovieFromImdb(Guid movieId);
         Task<MovieDto> AddMovie(AddMovieDto movieDto);
         Task<bool> DeleteMovie(Guid id);

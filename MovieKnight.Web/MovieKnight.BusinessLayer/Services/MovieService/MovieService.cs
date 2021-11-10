@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MovieKnight.BusinessLayer.Clients.MlClient;
 using MovieKnight.BusinessLayer.Clients.MovieClient;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.DataLayer.Models;
@@ -14,12 +15,22 @@ namespace MovieKnight.BusinessLayer.Services.MovieService
         private readonly IMovieRepository _movieRepository;
         private readonly IMapper _mapper;
         private readonly IImdbMovieClient _imdbMovieClient;
+        private readonly IMlClient _mlClient;
 
-        public MovieService(IMovieRepository movieRepository, IMapper mapper, IImdbMovieClient imdbMovieClient)
+        public MovieService(IMovieRepository movieRepository, IMapper mapper,
+            IImdbMovieClient imdbMovieClient, IMlClient mlClient)
         {
             _movieRepository = movieRepository;
             _mapper = mapper;
             _imdbMovieClient = imdbMovieClient;
+            _mlClient = mlClient;
+        }
+
+        public async Task<MovieDto> GetRecommendedMovie(Guid userId)
+        {
+            var response = await _mlClient.GetRecommendedMovieId(userId);
+            var recommendedMovie = await AddMovie(new AddMovieDto { IMDbId = response.movie_id });
+            return recommendedMovie;
         }
 
         public async Task<IEnumerable<MovieDto>> GetMovies()
@@ -42,7 +53,7 @@ namespace MovieKnight.BusinessLayer.Services.MovieService
             var movieToDelete = await _movieRepository.Get(id);
             if (movieToDelete == null)
                 return false;
-             _movieRepository.Delete(movieToDelete);
+            _movieRepository.Delete(movieToDelete);
             await _movieRepository.Save();
             return true;
         }
@@ -54,7 +65,7 @@ namespace MovieKnight.BusinessLayer.Services.MovieService
             return result;
         }
 
-        public async Task<MovieDto> GetFirstMovie()
+        private async Task<MovieDto> GetFirstMovie()
         {
             var movie = await _movieRepository.GetFirstMovie();
             return _mapper.Map<MovieDto>(movie);

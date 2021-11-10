@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MovieKnight.BusinessLayer.Clients.MlClient;
 using MovieKnight.BusinessLayer.Clients.MovieClient;
 using MovieKnight.BusinessLayer.Factories;
 using MovieKnight.BusinessLayer.Services.AuthorizationService;
@@ -47,6 +48,7 @@ namespace MovieKnight.Web.Installers
 
             //clients
             services.AddHttpClient<IImdbMovieClient, ImdbMovieClient>();
+            services.AddHttpClient<IMlClient, MlClient>();
 
             //builders
             services.AddTransient<IUserSearchQueryBuilder, UserSearchQueryBuilder>();

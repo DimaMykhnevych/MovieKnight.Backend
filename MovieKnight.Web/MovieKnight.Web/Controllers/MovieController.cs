@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MovieKnight.BusinessLayer.DTOs;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MovieKnight.BusinessLayer.Constants;
 using MovieKnight.BusinessLayer.Services.MovieService;
 using System;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MovieKnight.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class MovieController : ControllerBase
     {
         private readonly IMovieService _movieService;
@@ -29,7 +32,8 @@ namespace MovieKnight.Web.Controllers
         [Route("getRecommendedMovie")]
         public async Task<IActionResult> GetRecommendedMovie()
         {
-            var movie = await _movieService.GetFirstMovie();
+            var movie = await _movieService
+                .GetRecommendedMovie(new Guid(User.FindFirstValue(AuthorizationConstants.ID)));
             return Ok(movie);
         }
 
