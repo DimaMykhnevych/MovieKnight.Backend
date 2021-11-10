@@ -8,6 +8,7 @@ namespace MovieKnight.DataLayer.Models
         public Guid Id { get; set; }
         public string IMDbId { get; set; }
         public IEnumerable<WatchHistory> WatchHistory { get; set; }
+        public IEnumerable<Comment> Comments { get; set; }
 
     }
 }
