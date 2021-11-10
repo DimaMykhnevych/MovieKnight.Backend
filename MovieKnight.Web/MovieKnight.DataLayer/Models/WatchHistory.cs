@@ -13,8 +13,6 @@ namespace MovieKnight.DataLayer.Models
         public AppUser AppUser { get; set; }
         public Movie Movie { get; set; }
 
-        public IEnumerable<Comment> Comments { get; set; }
-
         public DateTime WatchDate { get; set; }
     }
 }

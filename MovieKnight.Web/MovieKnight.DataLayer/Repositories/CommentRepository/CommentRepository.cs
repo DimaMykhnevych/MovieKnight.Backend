@@ -35,7 +35,7 @@ namespace MovieKnight.DataLayer.Repositories.CommentRepository
         {
             return await Context
                 .Comments
-                .Where(c => Context.WatchHistory.Where(wh => wh.AppUserId == userId && c.WatchHistoryId == wh.Id).Any())
+                .Where(c => c.AppUserId == userId)
                 .ToListAsync();
             
         }
@@ -44,7 +44,7 @@ namespace MovieKnight.DataLayer.Repositories.CommentRepository
         {
             return await Context
                 .Comments
-                .Where(c => Context.WatchHistory.Where(wh => wh.MovieId == movieId && c.WatchHistoryId == wh.Id).Any())
+                .Where(c => c.MovieId == movieId)
                 .ToListAsync();
         }
 
