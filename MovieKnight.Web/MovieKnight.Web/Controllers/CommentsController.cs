@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieKnight.BusinessLayer.Constants;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Services.CommentService;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MovieKnight.Web.Controllers
@@ -36,6 +38,9 @@ namespace MovieKnight.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddComment([FromBody] CommentDto addCommentDto)
         {
+            var currentUserId = new Guid(User.FindFirstValue(AuthorizationConstants.ID));
+            addCommentDto.AppUserId = currentUserId;
+            addCommentDto.Id = Guid.NewGuid();
             var result = await _commentService.AddComment(addCommentDto);
             return Ok(result);
         }
