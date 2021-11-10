@@ -39,7 +39,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="testMovies.json" />
+    <None Include="testMovies.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
