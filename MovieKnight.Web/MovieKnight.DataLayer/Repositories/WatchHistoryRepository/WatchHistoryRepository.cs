@@ -54,5 +54,11 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
             await Context.SaveChangesAsync();
         }
 
+        public async Task<WatchHistory> GetWatchHistoryByUserIdAndMovie(Guid userId, Guid movieId)
+        {
+            return await Context
+                .WatchHistory
+                .FirstOrDefaultAsync(wh => wh.AppUserId == userId && wh.MovieId == movieId);
+        }
     }
 }

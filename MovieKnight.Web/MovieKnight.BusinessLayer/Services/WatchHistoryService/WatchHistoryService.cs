@@ -25,7 +25,18 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
 
         public async Task<WatchHistoryDto> AddWatchHistoryItem(AddWatchHistoryDto watchHistoryDto)
         {
-            var watchHistoryItem = _mapper.Map<WatchHistory>(watchHistoryDto);
+            var watchHistoryItem = await
+                _watchHistoryRepository
+                .GetWatchHistoryByUserIdAndMovie(watchHistoryDto.AppUserId, watchHistoryDto.MovieId);
+
+            if (watchHistoryItem != null)
+            {
+                watchHistoryItem.Rating = watchHistoryDto.Rating;
+                await _watchHistoryRepository.UpdateWatchHistoryItem(watchHistoryItem);
+                return _mapper.Map<WatchHistoryDto>(watchHistoryItem);
+            }
+
+            watchHistoryItem = _mapper.Map<WatchHistory>(watchHistoryDto);
             watchHistoryItem.Id = Guid.NewGuid();
             watchHistoryItem.WatchDate = DateTime.Now;
             var added = await _watchHistoryRepository.Insert(watchHistoryItem);
