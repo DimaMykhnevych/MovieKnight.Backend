@@ -36,7 +36,7 @@ namespace MovieKnight.BusinessLayer.Services.MovieService
             return _mapper.Map<MovieModel>(movie.MovieInfo);
         }
 
-        public async Task<MovieDto> GetRecommendedMovie(Guid userId)
+        public async Task<MovieDto> GetRecommendedMovie(string username)
         {
             return await GetFirstMovie();
         }
