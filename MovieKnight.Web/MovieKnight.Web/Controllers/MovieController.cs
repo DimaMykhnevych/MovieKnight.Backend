@@ -33,7 +33,7 @@ namespace MovieKnight.Web.Controllers
         public async Task<IActionResult> GetRecommendedMovie()
         {
             var movie = await _movieService
-                .GetRecommendedMovie(new Guid(User.FindFirstValue(AuthorizationConstants.ID)));
+                .GetRecommendedMovie(User.Identity.Name);
             return Ok(movie);
         }
 

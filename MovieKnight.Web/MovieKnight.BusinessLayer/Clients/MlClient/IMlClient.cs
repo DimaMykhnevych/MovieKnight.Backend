@@ -6,6 +6,6 @@ namespace MovieKnight.BusinessLayer.Clients.MlClient
 {
     public interface IMlClient
     {
-        Task<MlApiResponse> GetRecommendedMovieId(Guid userId);
+        Task<MlApiResponse> GetRecommendedMovieId(string username);
     }
 }

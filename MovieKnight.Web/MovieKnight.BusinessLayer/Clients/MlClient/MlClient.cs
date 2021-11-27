@@ -15,11 +15,11 @@ namespace MovieKnight.BusinessLayer.Clients.MlClient
             _httpClient = httpClient;
         }
 
-        public async Task<MlApiResponse> GetRecommendedMovieId(Guid userId)
+        public async Task<MlApiResponse> GetRecommendedMovieId(string username)
         {
             try
             {
-                var request = await _httpClient.GetAsync($"{MlApiRoutes.GetRecommendedMovie}/userId");
+                var request = await _httpClient.GetAsync($"{MlApiRoutes.GetRecommendedMovie}/{username}");
                 var response = await request.Content.ReadAsStringAsync();
                 var recommendedMovie = JsonConvert.DeserializeObject<MlApiResponse>(response);
                 return recommendedMovie;

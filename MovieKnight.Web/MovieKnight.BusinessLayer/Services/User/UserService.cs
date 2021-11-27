@@ -7,6 +7,7 @@ using MovieKnight.BusinessLayer.Exceptions;
 using MovieKnight.BusinessLayer.Services.EmailService;
 using MovieKnight.DataLayer.Builders.UserSearchQueryBuilder;
 using MovieKnight.DataLayer.Models;
+using MovieKnight.DataLayer.Repositories.UserRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,14 +21,17 @@ namespace MovieKnight.BusinessLayer.Services.User
         private readonly UserManager<AppUser> _userManager;
         private readonly IUserSearchQueryBuilder _userSearchQueryBuilder;
         private readonly IEmailService _emailService;
+        private readonly IUserRepository _userRepository;
 
         public UserService(IMapper mapper, UserManager<AppUser> userManager,
-            IEmailService emailService, IUserSearchQueryBuilder userSearchQueryBuilder)
+            IEmailService emailService, IUserSearchQueryBuilder userSearchQueryBuilder,
+            IUserRepository userRepository)
         {
             _mapper = mapper;
             _userManager = userManager;
             _userSearchQueryBuilder = userSearchQueryBuilder;
             _emailService = emailService;
+            _userRepository = userRepository;
         }
 
         public async Task<IEnumerable<AppUser>> SearchUsers(string username)
@@ -43,7 +47,7 @@ namespace MovieKnight.BusinessLayer.Services.User
 
         public async Task<AppUser> GetUserByUsername(string username)
         {
-            return await _userManager.FindByNameAsync(username);
+            return await _userRepository.GetUserWithWatchHistory(username);
         }
 
         public async Task<AppUser> CreateUserAsync(CreateUserDto model)

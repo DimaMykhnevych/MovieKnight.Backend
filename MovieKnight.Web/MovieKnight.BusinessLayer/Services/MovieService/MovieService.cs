@@ -26,9 +26,9 @@ namespace MovieKnight.BusinessLayer.Services.MovieService
             _mlClient = mlClient;
         }
 
-        public async Task<MovieDto> GetRecommendedMovie(Guid userId)
+        public async Task<MovieDto> GetRecommendedMovie(string userName)
         {
-            var response = await _mlClient.GetRecommendedMovieId(userId);
+            var response = await _mlClient.GetRecommendedMovieId(userName);
             var recommendedMovie = await AddMovie(new AddMovieDto { IMDbId = response.movie_id });
             return recommendedMovie;
         }
