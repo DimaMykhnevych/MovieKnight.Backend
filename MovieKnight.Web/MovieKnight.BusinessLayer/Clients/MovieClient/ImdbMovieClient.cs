@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MovieKnight.BusinessLayer.Options;
 using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace MovieKnight.BusinessLayer.Clients.MovieClient
 {
@@ -22,19 +23,35 @@ namespace MovieKnight.BusinessLayer.Clients.MovieClient
 
         public async Task<MovieModel> GetMovieFromImdb(string imdbMovieId)
         {
-            var parameters = new Dictionary<string, string> { { "lang", "en"}, { "apiKey", _iMDbApiDetails.IMDbApiKey }, { "id", imdbMovieId } };
-            var apiRoute = GetFullApiRoute(parameters, ImdbApiRoutes.GetMovieById);
+            int index = 0;
+            var keys = _iMDbApiDetails.IMDbApiKey.ToArray();
+            while (true)
+            {
+                var parameters = new Dictionary<string, string> {
+                { "lang", "en"},
+                { "apiKey", keys[index] },
+                { "id", imdbMovieId }
+             };
+                var apiRoute = GetFullApiRoute(parameters, ImdbApiRoutes.GetMovieById);
 
-            try
-            {
-                var request = await _httpClient.GetAsync(apiRoute);
-                var response = await request.Content.ReadAsStringAsync();
-                var movieInfo = JsonConvert.DeserializeObject<MovieModel>(response);
-                return movieInfo;
-            }
-            catch
-            {
-                return null;
+                try
+                {
+                    var request = await _httpClient.GetAsync(apiRoute);
+                    var response = await request.Content.ReadAsStringAsync();
+                    var movieInfo = JsonConvert.DeserializeObject<MovieModel>(response);
+                    if(movieInfo.ErrorMessage.Length > 0)
+                    {
+                        index++;
+                    }
+                    else
+                    {
+                        return movieInfo;
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
 

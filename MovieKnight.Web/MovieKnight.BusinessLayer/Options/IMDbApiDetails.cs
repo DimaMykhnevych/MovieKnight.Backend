@@ -1,7 +1,9 @@
-﻿namespace MovieKnight.BusinessLayer.Options
+﻿using System.Collections.Generic;
+
+namespace MovieKnight.BusinessLayer.Options
 {
     public class IMDbApiDetails
     {
-        public string IMDbApiKey { get; set; }
+        public IEnumerable<string> IMDbApiKey { get; set; }
     }
 }
