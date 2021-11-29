@@ -26,6 +26,7 @@ namespace MovieKnight.BusinessLayer.Mappers
                 mdto => mdto.MapFrom<FullMovieInfoResolver>());
             CreateMap<WatchHistory, WatchHistoryDto>().ForMember(wdto => wdto.Movie,
                 wdto => wdto.MapFrom<WatchHistoryMovieResolver>());
+            CreateMap<AppUserDto, AppUser>().ReverseMap();
             CreateMap<TestMovie, MovieDto>().ReverseMap();
             CreateMap<TestImdbMovieModel, MovieModel>().ReverseMap();
             CreateMap<MovieKnight.DataLayer.Models.StarShort, MovieKnight.BusinessLayer.DTOs.StarShort>().ReverseMap();

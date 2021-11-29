@@ -20,10 +20,11 @@ namespace MovieKnight.BusinessLayer.Services.FriendsService
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<AppUser>> GetUserFriends(Guid userId)
+        public async Task<IEnumerable<AppUserDto>> GetUserFriends(Guid userId)
         {
             var friends = await _friendsRepository.GetUserFriends(userId);
-            return friends.ToList().Select(f => f.Friend2);
+            var userFriends = friends.ToList().Select(f => f.Friend2);
+            return _mapper.Map<IEnumerable<AppUserDto>>(userFriends);
         }
 
         public async Task<bool> DeleteFriend(Guid userId, Guid friendToDelete)

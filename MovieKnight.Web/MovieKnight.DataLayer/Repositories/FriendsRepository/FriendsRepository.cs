@@ -19,6 +19,8 @@ namespace MovieKnight.DataLayer.Repositories.FriendsRepository
             return await Context.Friends
                 .Where(f => f.Friend1Id == userId)
                 .Include(f => f.Friend2)
+                .ThenInclude(f => f.WatchHistory)
+                .ThenInclude(wh => wh.Movie)
                 .ToListAsync();
         }
 

@@ -8,7 +8,7 @@ namespace MovieKnight.BusinessLayer.Services.FriendsService
 {
     public interface IFriendsService
     {
-        Task<IEnumerable<AppUser>> GetUserFriends(Guid userId);
+        Task<IEnumerable<AppUserDto>> GetUserFriends(Guid userId);
         Task<bool> DeleteFriend(Guid userId, Guid friendToDelete);
         Task<FriendsDto> AddFriend(Guid userId, Guid friendId);
     }
