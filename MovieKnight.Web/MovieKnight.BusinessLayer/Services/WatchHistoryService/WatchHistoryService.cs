@@ -86,5 +86,22 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
                 return false;
             }
         }
+
+        public async Task<WatchHistoryStatisticsDto> GetWatchHistoryStatistics(GetWatchHistoryStatisticsDto getStatisticsDto)
+        {
+            List<WatchHistory> watchHistoryList = (await _watchHistoryRepository.GetWatchHistoryBetweenDates
+                (getStatisticsDto.DateFrom, getStatisticsDto.DateTo)).ToList();
+
+
+            WatchHistoryStatisticsDto result = new WatchHistoryStatisticsDto()
+            {
+                SuggestionsCount = watchHistoryList.Count,
+                AverageRating = watchHistoryList.Average(wh => wh.Rating),
+                UsersCount = watchHistoryList.Select(wh => wh.AppUserId).Distinct().Count(),
+                MoviesCount = watchHistoryList.Select(wh => wh.MovieId).Distinct().Count()
+            };
+
+            return result;
+        }
     }
 }
