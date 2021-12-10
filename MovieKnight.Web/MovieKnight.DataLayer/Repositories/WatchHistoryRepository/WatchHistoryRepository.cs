@@ -61,7 +61,7 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
                 .FirstOrDefaultAsync(wh => wh.AppUserId == userId && wh.MovieId == movieId);
         }
 
-        public async Task<IEnumerable<WatchHistory>> GetWatchHistoryBetweenDates(DateTime startDate, DateTime endDate)
+        public async Task<IEnumerable<WatchHistory>> GetWatchHistoryBetweenDates(DateTime? startDate, DateTime? endDate)
         {
             return await Context
                 .WatchHistory
