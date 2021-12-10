@@ -89,6 +89,11 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
 
         public async Task<WatchHistoryStatisticsDto> GetWatchHistoryStatistics(GetWatchHistoryStatisticsDto getStatisticsDto)
         {
+            if(getStatisticsDto.DateTo == default(DateTime))
+            {
+                getStatisticsDto.DateTo = DateTime.Now.AddDays(1);
+            }
+            
             List<WatchHistory> watchHistoryList = (await _watchHistoryRepository.GetWatchHistoryBetweenDates
                 (getStatisticsDto.DateFrom, getStatisticsDto.DateTo)).ToList();
 

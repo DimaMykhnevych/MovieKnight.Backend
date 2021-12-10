@@ -10,6 +10,6 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
         Task<IEnumerable<WatchHistory>> GetWatchHistoryByUserId(Guid userId, Guid currentUserId);
         Task<WatchHistory> GetWatchHistoryByUserIdAndMovie(Guid userId, Guid movieId);
         Task UpdateWatchHistoryItem(WatchHistory movie);
-        Task<IEnumerable<WatchHistory>> GetWatchHistoryBetweenDates(DateTime startDate, DateTime endDate);
+        Task<IEnumerable<WatchHistory>> GetWatchHistoryBetweenDates(DateTime? startDate, DateTime? endDate);
     }
 }
