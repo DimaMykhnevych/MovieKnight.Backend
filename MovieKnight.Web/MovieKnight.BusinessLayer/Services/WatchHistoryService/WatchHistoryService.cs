@@ -67,7 +67,6 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
         public async Task<IEnumerable<WatchHistoryDto>> GetWatchHistoryByUserId(Guid UserId, Guid CurrentUserId)
         {
             var watchHistory = await _watchHistoryRepository.GetWatchHistoryByUserId(UserId, CurrentUserId);
-            //foreach (var wh in watchHistory) wh.AppUser = null;
             return _mapper.Map<IEnumerable<WatchHistoryDto>>(watchHistory);
         }
 
