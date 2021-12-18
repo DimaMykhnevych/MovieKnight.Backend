@@ -17,9 +17,10 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
 
         public async Task<IEnumerable<WatchHistory>> GetWatchHistoryByUserId(Guid userId, Guid currentUserId)
         {
-            if (userId == currentUserId ||await CanGetWatchHistory(userId, currentUserId))
+            if (userId == currentUserId || await CanGetWatchHistory(userId, currentUserId))
             {
-                return await Context.WatchHistory
+                return await Context
+                    .WatchHistory
                     .Where(r => r.AppUserId == userId)
                     .ToListAsync();
             }
@@ -29,7 +30,8 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
 
         private async Task<bool> CanGetWatchHistory(Guid userId, Guid currentUserId)
         {
-            var user = await Context.AppUsers
+            var user = await Context
+                .AppUsers
                 .FirstOrDefaultAsync(r => r.Id == userId);
             
             if(user.StoryVisibility == Enums.StoryVisibility.Public)
@@ -42,7 +44,8 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
                 return false;
             }
 
-            var result = await Context.Friends
+            var result = await Context
+                .Friends
                 .FirstOrDefaultAsync(r => r.Friend1Id == userId && r.Friend2Id == currentUserId);
 
             return result != null;
@@ -59,6 +62,14 @@ namespace MovieKnight.DataLayer.Repositories.WatchHistoryRepository
             return await Context
                 .WatchHistory
                 .FirstOrDefaultAsync(wh => wh.AppUserId == userId && wh.MovieId == movieId);
+        }
+
+        public async Task<IEnumerable<WatchHistory>> GetWatchHistoryBetweenDates(DateTime? startDate, DateTime? endDate)
+        {
+            return await Context
+                .WatchHistory
+                .Where(wh => wh.WatchDate >= startDate && wh.WatchDate <= endDate)
+                .ToListAsync();
         }
     }
 }

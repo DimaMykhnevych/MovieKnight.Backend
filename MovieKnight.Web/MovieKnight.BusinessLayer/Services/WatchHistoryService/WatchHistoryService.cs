@@ -67,7 +67,6 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
         public async Task<IEnumerable<WatchHistoryDto>> GetWatchHistoryByUserId(Guid UserId, Guid CurrentUserId)
         {
             var watchHistory = await _watchHistoryRepository.GetWatchHistoryByUserId(UserId, CurrentUserId);
-            //foreach (var wh in watchHistory) wh.AppUser = null;
             return _mapper.Map<IEnumerable<WatchHistoryDto>>(watchHistory);
         }
 
@@ -85,6 +84,28 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
             {
                 return false;
             }
+        }
+
+        public async Task<WatchHistoryStatisticsDto> GetWatchHistoryStatistics(GetWatchHistoryStatisticsDto getStatisticsDto)
+        {
+            if(getStatisticsDto.DateTo == default(DateTime))
+            {
+                getStatisticsDto.DateTo = DateTime.Now.AddDays(1);
+            }
+            
+            List<WatchHistory> watchHistoryList = (await _watchHistoryRepository.GetWatchHistoryBetweenDates
+                (getStatisticsDto.DateFrom, getStatisticsDto.DateTo)).ToList();
+
+
+            WatchHistoryStatisticsDto result = new WatchHistoryStatisticsDto()
+            {
+                SuggestionsCount = watchHistoryList.Count,
+                AverageRating = watchHistoryList.Average(wh => wh.Rating),
+                UsersCount = watchHistoryList.Select(wh => wh.AppUserId).Distinct().Count(),
+                MoviesCount = watchHistoryList.Select(wh => wh.MovieId).Distinct().Count()
+            };
+
+            return result;
         }
     }
 }

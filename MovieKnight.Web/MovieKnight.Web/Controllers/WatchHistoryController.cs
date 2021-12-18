@@ -63,5 +63,13 @@ namespace MovieKnight.Web.Controllers
             if (result) return Ok(result);
             return BadRequest();
         }
+        
+        [HttpPost]
+        [Route("GetStatistics")]
+        [Authorize(Roles = "Admin")]
+        public async Task<WatchHistoryStatisticsDto> GetStatistics([FromBody]GetWatchHistoryStatisticsDto getDto)
+        {
+            return await _watchHistoryService.GetWatchHistoryStatistics(getDto);
+        }
     }
 }
