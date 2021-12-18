@@ -7,6 +7,7 @@ namespace MovieKnight.BusinessLayer.Services.CommentService
 {
     public interface ICommentService
     {
+        Task<IEnumerable<CommentDto>> GetAllComments();
         Task<IEnumerable<CommentDto>> GetCommentsToMovie(Guid movieId);
         Task<IEnumerable<CommentDto>> GetCommentsByUser(Guid movieId);
         Task<bool> DeleteComment(Guid commentId);

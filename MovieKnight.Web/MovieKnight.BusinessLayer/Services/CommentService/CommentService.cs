@@ -19,6 +19,12 @@ namespace MovieKnight.BusinessLayer.Services.CommentService
             _commentRepository = commentRepository;
         }
 
+        public async Task<IEnumerable<CommentDto>> GetAllComments()
+        {
+            var comments = await _commentRepository.GetAll();
+            return _mapper.Map<IEnumerable<CommentDto>>(comments);
+        }
+
         public async Task<CommentDto> AddComment(AddCommentDto addCommentDto)
         {
             var comment = _mapper.Map<Comment>(addCommentDto);
