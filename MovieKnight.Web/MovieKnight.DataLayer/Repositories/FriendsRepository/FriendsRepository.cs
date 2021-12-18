@@ -26,10 +26,13 @@ namespace MovieKnight.DataLayer.Repositories.FriendsRepository
 
         public async Task<bool> DeleteUserFriend(Guid userId, Guid friendToDeleteId)
         {
-            var entityToDelete = await Context.Friends
+            var friend1ToDelete = await Context.Friends
                 .FirstOrDefaultAsync(f => f.Friend1Id == userId && f.Friend2Id == friendToDeleteId);
-            if (entityToDelete == null) return false;
-            Context.Friends.Remove(entityToDelete);
+            var friend2ToDelete = await Context.Friends
+                .FirstOrDefaultAsync(f => f.Friend1Id == friendToDeleteId && f.Friend2Id == userId);
+            if (friend1ToDelete == null || friend2ToDelete == null) return false;
+            Context.Friends.Remove(friend1ToDelete);
+            Context.Friends.Remove(friend2ToDelete);
             await Context.SaveChangesAsync();
             return true;
         }
