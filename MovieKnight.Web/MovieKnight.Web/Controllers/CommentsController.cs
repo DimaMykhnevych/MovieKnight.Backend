@@ -21,6 +21,13 @@ namespace MovieKnight.Web.Controllers
             _commentService = commentService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllComments()
+        {
+            var result = await _commentService.GetAllComments();
+            return Ok(result);
+        }
+
         [HttpGet("getCommentsByUser/{userId}")]
         public async Task<IActionResult> GetCommentsByUser(Guid userId)
         {
