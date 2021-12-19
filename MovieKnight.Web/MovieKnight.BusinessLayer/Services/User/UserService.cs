@@ -6,6 +6,7 @@ using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Exceptions;
 using MovieKnight.BusinessLayer.Services.EmailService;
 using MovieKnight.DataLayer.Builders.UserSearchQueryBuilder;
+using MovieKnight.DataLayer.Enums;
 using MovieKnight.DataLayer.Models;
 using MovieKnight.DataLayer.Repositories.UserRepository;
 using System;
@@ -92,6 +93,21 @@ namespace MovieKnight.BusinessLayer.Services.User
             if (!confirmResult.Succeeded)
                 return null;
             return confirmEmailDto;
+        }
+
+        public async Task<bool> UpdateWatchHistoryVisibilityStatus(string userName, StoryVisibility storyVisibility)
+        {
+            AppUser user = await _userManager.FindByNameAsync(userName);
+            user.StoryVisibility = storyVisibility;
+            try
+            {
+                await _userManager.UpdateAsync(user);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<AppUser> UpdateUserAsync(UpdateUserDto model)

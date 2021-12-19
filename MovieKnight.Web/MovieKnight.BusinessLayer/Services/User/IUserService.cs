@@ -1,4 +1,5 @@
 ﻿using MovieKnight.BusinessLayer.DTOs;
+using MovieKnight.DataLayer.Enums;
 using MovieKnight.DataLayer.Models;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace MovieKnight.BusinessLayer.Services.User
         Task<AppUser> UpdateUserAsync(UpdateUserDto userModel);
         Task DeleteUser(Guid userId);
         Task<ConfirmEmailDto> ConfirmEmail(ConfirmEmailDto confirmEmailDto);
+        Task<bool> UpdateWatchHistoryVisibilityStatus(string userName, StoryVisibility storyVisibility);
     }
 }

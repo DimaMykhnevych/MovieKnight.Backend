@@ -5,6 +5,7 @@ using MovieKnight.BusinessLayer.Constants;
 using MovieKnight.BusinessLayer.DTOs;
 using MovieKnight.BusinessLayer.Exceptions;
 using MovieKnight.BusinessLayer.Services.User;
+using MovieKnight.DataLayer.Enums;
 using MovieKnight.DataLayer.Models;
 using System;
 using System.Security.Claims;
@@ -82,6 +83,12 @@ namespace MovieKnight.Web.Controllers
             {
                 return BadRequest(AddModelStateError("username", ErrorMessagesConstants.USERNAME_ALREADY_TAKEN));
             }
+        }
+
+        [HttpPut("updateWatchHistoryStatus/{visibility}")]
+        public async Task<IActionResult> UpdateWatchHistoryVisibilityStatus(StoryVisibility visibility)
+        {
+            return Ok(await _service.UpdateWatchHistoryVisibilityStatus(User.Identity.Name, visibility));
         }
 
 
