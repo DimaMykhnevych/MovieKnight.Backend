@@ -9,6 +9,7 @@ namespace MovieKnight.BusinessLayer.Services.User
     public interface IUserService
     {
         Task<IEnumerable<AppUser>> SearchUsers(string username);
+        Task<IEnumerable<AppUser>> GetAllUsers();
         Task<AppUser> GetUserByUsername(string username);
         Task<AppUser> CreateUserAsync(CreateUserDto userModel);
         Task<AppUser> UpdateUserAsync(UpdateUserDto userModel);
