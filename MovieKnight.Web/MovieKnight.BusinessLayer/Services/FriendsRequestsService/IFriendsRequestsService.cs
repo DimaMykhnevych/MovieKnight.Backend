@@ -11,6 +11,7 @@ namespace MovieKnight.BusinessLayer.Services.FriendsRequestsService
         Task<IEnumerable<FriendRequestDto>> GetCurrentUserPendingRequests(Guid userId);
         Task<FriendRequestDto> AddFriendRequest(AddFriendRequestDto friendRequestDto);
         Task<bool> DeleteRequest(Guid userId, Guid receiverID);
+        Task<bool> DeleteRequestByCurrentUserId(Guid userId);
         Task UpdateRequestStatus(UpdateRequestDto request);
     }
 }

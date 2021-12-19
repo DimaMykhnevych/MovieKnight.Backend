@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieKnight.DataLayer.DbContext;
 
 namespace MovieKnight.DataLayer.Migrations
 {
     [DbContext(typeof(MovieKnightDbContext))]
-    partial class MovieKnightDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211219133606_AddCascadeDeleteForFriends")]
+    partial class AddCascadeDeleteForFriends
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -399,13 +401,13 @@ namespace MovieKnight.DataLayer.Migrations
                     b.HasOne("MovieKnight.DataLayer.Models.AppUser", "Receiver")
                         .WithMany("FriendRequests")
                         .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MovieKnight.DataLayer.Models.AppUser", "Sender")
                         .WithMany()
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Receiver");

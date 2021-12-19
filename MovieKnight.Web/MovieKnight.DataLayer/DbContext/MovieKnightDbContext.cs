@@ -25,13 +25,13 @@ namespace MovieKnight.DataLayer.DbContext
                 .HasOne(r => r.Receiver)
                 .WithMany(r => r.FriendRequests)
                 .HasForeignKey(r => r.ReceiverId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<FriendRequest>()
                 .HasOne(r => r.Sender)
                 .WithMany()
                 .HasForeignKey(r => r.SenderId)
-                .OnDelete(DeleteBehavior.NoAction); 
+                .OnDelete(DeleteBehavior.Cascade); 
 
             builder.Entity<FriendRequest>()
                 .HasKey(r => new { r.ReceiverId, r.SenderId });
@@ -41,15 +41,20 @@ namespace MovieKnight.DataLayer.DbContext
                 .HasOne(f => f.Friend1)
                 .WithMany(f => f.Friends)
                 .HasForeignKey(f => f.Friend1Id)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Friends>()
                 .HasOne(f => f.Friend2)
                 .WithMany()
                 .HasForeignKey(f => f.Friend2Id)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Friends>().HasKey(f => new { f.Friend1Id, f.Friend2Id });
+
+            //builder.Entity<AppUser>()
+            //    .HasMany(f => f.Friends)
+            //    .WithOne()
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
         }

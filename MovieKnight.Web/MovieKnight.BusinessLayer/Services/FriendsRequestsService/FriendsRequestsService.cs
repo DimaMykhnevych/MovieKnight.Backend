@@ -39,6 +39,11 @@ namespace MovieKnight.BusinessLayer.Services.FriendsRequestsService
             return result;
         }
 
+        public async Task<bool> DeleteRequestByCurrentUserId(Guid userId)
+        {
+            return await _friendRequestsRepository.DeleteRequestByCurrentUserId(userId);
+        }
+
         public async Task<IEnumerable<FriendRequestDto>> GetCurrentUserPendingRequests(Guid userId)
         {
             var requests = await _friendRequestsRepository.GetCurrentUserPendingRequests(userId);

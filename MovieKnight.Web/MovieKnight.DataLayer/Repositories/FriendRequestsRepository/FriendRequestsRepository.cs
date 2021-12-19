@@ -25,6 +25,16 @@ namespace MovieKnight.DataLayer.Repositories.FriendRequestsRepository
             return true;
         }
 
+        public async Task<bool> DeleteRequestByCurrentUserId(Guid userId)
+        {
+            var request = Context.FriendRequests
+                .FirstOrDefault(r => r.SenderId == userId || r.ReceiverId == userId);
+            if (request == null) return false;
+            Context.FriendRequests.Remove(request);
+            await Context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<IEnumerable<FriendRequest>> GetCurrentUserPendingRequests(Guid userId)
         {
             return await Context.FriendRequests

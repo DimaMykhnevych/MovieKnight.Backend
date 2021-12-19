@@ -10,6 +10,7 @@ namespace MovieKnight.DataLayer.Repositories.FriendRequestsRepository
         Task<IEnumerable<FriendRequest>> GetFriendRequestsToCurrentUser(Guid userId);
         Task<IEnumerable<FriendRequest>> GetCurrentUserPendingRequests(Guid userId);
         Task<bool> DeleteRequest(Guid userId, Guid receiverID);
+        Task<bool> DeleteRequestByCurrentUserId(Guid userId);
         Task UpdateRequest(FriendRequest request);
     }
 }
