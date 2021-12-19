@@ -29,7 +29,7 @@ namespace MovieKnight.Web.Controllers
             return Ok(results);
         }
 
-        [HttpGet]
+        [HttpGet("getAllUsers")]
         [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> GetAllUsers()
         {
