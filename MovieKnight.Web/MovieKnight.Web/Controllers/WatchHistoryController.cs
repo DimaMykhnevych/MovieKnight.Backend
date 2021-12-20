@@ -64,12 +64,15 @@ namespace MovieKnight.Web.Controllers
             return BadRequest();
         }
         
-        [HttpPost]
-        [Route("GetStatistics")]
+        [HttpGet("getStatistics/{dateFrom}/{dateTo}")]
         [Authorize(Roles = "Admin")]
-        public async Task<WatchHistoryStatisticsDto> GetStatistics([FromBody]GetWatchHistoryStatisticsDto getDto)
+        public async Task<WatchHistoryStatisticsDto> GetStatistics(DateTime dateFrom, DateTime dateTo)
         {
-            return await _watchHistoryService.GetWatchHistoryStatistics(getDto);
+            return await _watchHistoryService.GetWatchHistoryStatistics(new GetWatchHistoryStatisticsDto
+            {
+                DateFrom = dateFrom,
+                DateTo = dateTo
+            });
         }
     }
 }

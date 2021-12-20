@@ -88,22 +88,25 @@ namespace MovieKnight.BusinessLayer.Services.WatchHistoryService
 
         public async Task<WatchHistoryStatisticsDto> GetWatchHistoryStatistics(GetWatchHistoryStatisticsDto getStatisticsDto)
         {
-            if(getStatisticsDto.DateTo == default(DateTime))
-            {
-                getStatisticsDto.DateTo = DateTime.Now.AddDays(1);
-            }
-            
+            getStatisticsDto.DateFrom = getStatisticsDto.DateFrom.Date;
+            getStatisticsDto.DateTo = getStatisticsDto.DateTo.Date.AddDays(1).AddSeconds(-1);
+
+
             List<WatchHistory> watchHistoryList = (await _watchHistoryRepository.GetWatchHistoryBetweenDates
                 (getStatisticsDto.DateFrom, getStatisticsDto.DateTo)).ToList();
 
+            WatchHistoryStatisticsDto result = new WatchHistoryStatisticsDto();
 
-            WatchHistoryStatisticsDto result = new WatchHistoryStatisticsDto()
+            if (watchHistoryList.Count > 0)
             {
-                SuggestionsCount = watchHistoryList.Count,
-                AverageRating = watchHistoryList.Average(wh => wh.Rating),
-                UsersCount = watchHistoryList.Select(wh => wh.AppUserId).Distinct().Count(),
-                MoviesCount = watchHistoryList.Select(wh => wh.MovieId).Distinct().Count()
-            };
+                result = new WatchHistoryStatisticsDto()
+                {
+                    SuggestionsCount = watchHistoryList.Count,
+                    AverageRating = watchHistoryList.Average(wh => wh.Rating),
+                    UsersCount = watchHistoryList.Select(wh => wh.AppUserId).Distinct().Count(),
+                    MoviesCount = watchHistoryList.Select(wh => wh.MovieId).Distinct().Count()
+                };
+            }
 
             return result;
         }
