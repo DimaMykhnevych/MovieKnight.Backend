@@ -32,7 +32,8 @@ namespace MovieKnight.DataLayer.Builders.UserSearchQueryBuilder
         {
             if(!String.IsNullOrEmpty(username))
             {
-                _query = _query.Where(u => u.UserName.ToLower().Contains(username.ToLower()));
+                _query = _query.Where(u => u.UserName.ToLower().Contains(username.ToLower())
+                                      && u.Role != Role.Admin);
             }
             return this;
         }

@@ -35,9 +35,9 @@ namespace MovieKnight.BusinessLayer.Services.User
             _userRepository = userRepository;
         }
 
-        public async Task<IEnumerable<AppUser>> GetAllUsers()
+        public async Task<IEnumerable<AppUser>> GetAllUsers(string currentUserName)
         {
-            return await _userRepository.GetAll();
+            return (await _userRepository.GetAll()).Where(s => s.UserName != currentUserName);
         }
 
         public async Task<IEnumerable<AppUser>> SearchUsers(string username)
