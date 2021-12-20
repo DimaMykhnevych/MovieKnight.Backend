@@ -1,4 +1,5 @@
-﻿using MovieKnight.DataLayer.DbContext;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieKnight.DataLayer.DbContext;
 using MovieKnight.DataLayer.Models;
 using System;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace MovieKnight.DataLayer.Builders.UserSearchQueryBuilder
 
         public IUserSearchQueryBuilder SetBaseUserInfo()
         {
-            _query = _dbContext.AppUsers;
+            _query = _dbContext.AppUsers.Include(u => u.Friends).ThenInclude(u => u.Friend2).AsNoTracking();
             return this;
         }
 

@@ -17,7 +17,6 @@ namespace MovieKnight.DataLayer.Repositories.UserRepository
             return await Context.AppUsers
                  .Include(u => u.WatchHistory)
                  .ThenInclude(u => u.Movie)
-                 .Include(u => u.Friends)
                  .FirstOrDefaultAsync(u => u.UserName == userName);
         }
     }
